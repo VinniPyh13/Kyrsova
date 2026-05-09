@@ -1,0 +1,26 @@
+import express from 'express';
+import reviewRouter from './ReviewRouter.js';
+import postRouter from './PostRouter.js';
+import bookRouter from './BookRouter.js';
+import cartRouter from './CartRouter.js';
+import categoryRouter from './CategoryRouter.js';
+import subcategoryRouter from './SubcategoryRouter.js';
+import authRouter from './AuthRouter.js';
+import userRouter from './UserRouter.js';
+import orderRouter from './OrderRouter.js'
+import paypalRouter from './PayPalRouter.js';
+
+const router = express.Router();
+
+router.use('/reviews', reviewRouter);
+router.use('/posts', postRouter);
+router.use('/books', bookRouter);
+router.use('/cart', cartRouter);
+router.use('/orders', orderRouter);
+router.use('/categories', categoryRouter);
+router.use('/subcategories', subcategoryRouter);
+router.use('/auth', authRouter);
+router.use('/users', userRouter);
+router.use('/paypal', paypalRouter);
+
+export default router;

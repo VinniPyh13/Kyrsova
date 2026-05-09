@@ -1,0 +1,44 @@
+import Post from '../Models/Post.js'
+
+export const getPosts = ((req, res) => {
+    res.json(products)
+})
+
+export const getPost = ((req, res) => {
+    const id = Number(req.params.productID)
+
+    res.json(product)
+})
+
+export const createPost = ((req, res) => {
+    res.status(201).json("newProduct")
+})
+
+export const updatePost = ((req, res) => {
+    const id = Number(req.params.productID)
+})
+
+export const deletePost = ((req, res) => {
+    const id = Number(req.params.productID)
+
+})
+
+import Router from 'express';
+
+import  { 
+    getPosts,
+    getPost,
+    createPost,
+    updatePost,
+    deletePost
+} from'../Controllers/PostController.js'
+
+const postRouter = new Router();
+
+postRouter.post('/post', createPost);
+postRouter.get('/posts', getPosts);
+postRouter.get('/post/:id', getPost);
+postRouter.delete('/post/:id' , deletePost);
+postRouter.put('/post/:id', updatePost);
+
+export default postRouter;
