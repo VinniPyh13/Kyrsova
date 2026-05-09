@@ -1,9 +1,9 @@
 import Order from '../Models/Order.js';
 import BaseService from './BaseService.js';
 
-class UserService extends BaseService {
+class OrderService extends BaseService {
     constructor() {
         super(Order); 
     }
 }
-export default new UserService();
+export default new OrderService();

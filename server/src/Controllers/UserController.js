@@ -1,11 +1,11 @@
 import UserService from '../Services/UserService.js';
-import Book from '../Models/Book.js'; // Add this import
+import Product from '../Models/Product.js'; 
 
 class UserController {
     async createUser(req, res) {
         try {
             const user = await UserService.create(req.body);
-            return res.status(201).json(user); // Ensure you are returning the user, not book
+            return res.status(201).json(user); 
         } catch (e) {
             res.status(400).json({ message: e.message });
         }
@@ -22,11 +22,11 @@ class UserController {
 
     async getUsers(req, res) {
         try {
-            console.log("Запит на отримання всіх користувачів"); // 👈 Додайф
+            console.log("Запит на отримання всіх користувачів"); 
             const users = await UserService.getAll();
             return res.json(users);
         } catch (e) {
-            console.error("Помилка у getUsers:", e); // 👈 Додай
+            console.error("Помилка у getUsers:", e); 
             res.status(500).json({ message: e.message });
         }
     }
@@ -60,17 +60,17 @@ class UserController {
 
     async addToFavorites(req, res) {
         try {
-            const { userId, bookId } = req.body;
+            const { userId, productId } = req.body;
     
             const user = await UserService.getOne(userId);
             if (!user) return res.status(404).json({ message: 'Користувача не знайдено' });
     
-            if (!user.fav_books.includes(bookId)) {
-                user.fav_books.push(bookId);
+            if (!user.fav_products.includes(productId)) {
+                user.fav_products.push(productId);
                 await user.save();
             }
     
-            res.json({ message: 'Книга додана до обраного' });
+            res.json({ message: 'Товар додано до обраного' });
         } catch (e) {
             res.status(500).json({ message: e.message });
         }
@@ -78,31 +78,31 @@ class UserController {
 
     async removeFromFavorites(req, res) {
         try {
-            const { userId, bookId } = req.body;
+            const { userId, productId } = req.body;
             const user = await UserService.getOne(userId);
             if (!user) {
                 return res.status(404).json({ message: 'Користувача не знайдено' });
             }
 
-            const bookIndex = user.fav_books.findIndex(id => id.toString() === bookId.toString());
+            const productIndex = user.fav_products.findIndex(id => id.toString() === productId.toString());
             
-            if (bookIndex === -1) {
-                return res.status(404).json({ message: 'Книгу не знайдено у списку обраних' });
+            if (productIndex === -1) {
+                return res.status(404).json({ message: 'Товар не знайдено у списку обраних' });
             }
       
-            user.fav_books.splice(bookIndex, 1);
+            user.fav_products.splice(productIndex, 1);
             await user.save();
       
             return res.json({
-                message: 'Книгу видалено з обраного',
-                remainingFavorites: user.fav_books
+                message: 'Товар видалено з обраного',
+                remainingFavorites: user.fav_products
             });
         } catch (e) {
             res.status(500).json({ message: e.message });
         }
     }
 
-    async getFavoriteBooks(req, res) {
+    async getFavoriteProducts(req, res) {
         try {
             const { userId } = req.params;
             const user = await UserService.getOne(userId);
@@ -111,11 +111,11 @@ class UserController {
                 return res.status(404).json({ message: 'Користувача не знайдено' });
             }
 
-            // Get the favorite books by finding them in the Book collection
-            const favoriteBooks = await Book.find({ _id: { $in: user.fav_books } });
+            // ВИПРАВЛЕНО: Шукаємо у колекції Product замість Book
+            const favoriteProducts = await Product.find({ _id: { $in: user.fav_products } });
       
-            if (Array.isArray(favoriteBooks)) {
-                res.json(favoriteBooks);
+            if (Array.isArray(favoriteProducts)) {
+                res.json(favoriteProducts);
             } else {
                 res.status(500).json({ message: 'Відповідь від сервера не є масивом' });
             }

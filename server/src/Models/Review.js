@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { uuid } from "uuidv4"; 
-import Book from "./Book.js"; 
+import Product from "./Product.js"; 
 import User from "./User.js";
 const {Schema} = mongoose;
 
@@ -24,10 +24,10 @@ const ReviewSchema = new mongoose.Schema(
             default: 0,
         },
 
-        bookId: {
+        productId: {
             type: String,
             required: true,
-            ref: 'Book',
+            ref: 'Product',
         },
 
         comment:{

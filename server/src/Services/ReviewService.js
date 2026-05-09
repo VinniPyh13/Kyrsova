@@ -1,7 +1,7 @@
 import BaseService from './BaseService.js';
 import Review from '../Models/Review.js';
 import User from '../Models/User.js';
-import Book from '../Models/Book.js';
+import Product from '../Models/Product.js';
 
 class ReviewService extends BaseService {
     constructor() {
@@ -16,9 +16,9 @@ class ReviewService extends BaseService {
         }
 
         // Перевірка, чи існує книга
-        const bookExists = await Book.findById(data.bookId);
-        if (!bookExists) {
-            throw new Error('Book does not exist');
+        const productExists = await Product.findById(data.productId);
+        if (!productExists) {
+            throw new Error('product does not exist');
         }
 
         // Створення відгуку
@@ -30,7 +30,7 @@ class ReviewService extends BaseService {
         });
 
         // Додавання до Book
-        await Book.findByIdAndUpdate(data.bookId, {
+        await Product.findByIdAndUpdate(data.productId, {
             $push: { reviews: createdReview._id }
         });
 

@@ -16,9 +16,9 @@ const upload = multer({ dest: path.join(__dirname, '../uploads/') }); // Збе�
 // Роут для завантаження зображення та перетворення в Base64
 uploadRouter.post('/upload', upload.single('file'), async (req, res) => {
   try {
-    const { bookId } = req.body; // Отримуємо ID книги з тіла запиту
+    const { productId } = req.body; // Отримуємо ID книги з тіла запиту
 
-    if (!bookId) {
+    if (!productId) {
       return res.status(400).json({ message: 'Не вказано ID книги' });
     }
 
@@ -29,7 +29,7 @@ uploadRouter.post('/upload', upload.single('file'), async (req, res) => {
     }
 
     // Перевірка існування книги
-    const book = await Book.findById(bookId);
+    const book = await Book.findById(productId);
     if (!book) {
       return res.status(404).json({ message: 'Книга не знайдена' });
     }
@@ -40,8 +40,8 @@ uploadRouter.post('/upload', upload.single('file'), async (req, res) => {
     const base64Image = fileData.toString('base64'); // Перетворюємо в Base64
 
     // Оновлюємо модель книги, додаючи зображення в Base64
-    const updatedBook = await Book.findByIdAndUpdate(
-      bookId,
+    const updatedProduct = await Book.findByIdAndUpdate(
+      productId,
       { image: `data:image/jpeg;base64,${base64Image}` }, // Зберігаємо Base64 зображення
       { new: true }
     );
@@ -49,7 +49,7 @@ uploadRouter.post('/upload', upload.single('file'), async (req, res) => {
     // Видаляємо тимчасовий файл після перетворення
     fs.unlinkSync(filePath);
 
-    return res.status(200).json({ message: 'Зображення успішно завантажено', book: updatedBook });
+    return res.status(200).json({ message: 'Зображення успішно завантажено', book: updatedProduct });
   } catch (error) {
     console.error('Error:', error);
 
@@ -67,7 +67,7 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import Book from '../Models/Book.js'; // Перевірте правильність шляху
+import Product from '../Models/Product.js'; // Перевірте правильність шляху
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -82,9 +82,9 @@ const upload = multer({ dest: path.join(__dirname, '../uploads/') });
 // Роут для завантаження кількох зображень
 uploadRouter.post('/upload', upload.array('files', 5), async (req, res) => {
   try {
-    const { bookId } = req.body;
+    const { productId } = req.body;
 
-    if (!bookId) {
+    if (!productId) {
       return res.status(400).json({ message: 'Не вказано ID книги' });
     }
 
@@ -95,9 +95,9 @@ uploadRouter.post('/upload', upload.array('files', 5), async (req, res) => {
     }
 
     // Перевірка існування книги
-    const book = await Book.findById(bookId);
-    if (!book) {
-      return res.status(404).json({ message: 'Книга не знайдена' });
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Товар не знайдена' });
     }
 
     // Перетворюємо файли у Base64
@@ -113,13 +113,13 @@ uploadRouter.post('/upload', upload.array('files', 5), async (req, res) => {
     }
 
     // Оновлюємо книгу, додаючи масив зображень
-    const updatedBook = await Book.findByIdAndUpdate(
-      bookId,
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
       { images }, // Оновлюємо масив зображень
       { new: true }
     );
 
-    return res.status(200).json({ message: 'Зображення успішно завантажено', book: updatedBook });
+    return res.status(200).json({ message: 'Зображення успішно завантажено', product: updatedProduct });
   } catch (error) {
     console.error('Error:', error);
 

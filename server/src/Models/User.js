@@ -44,9 +44,9 @@ const UserSchema = new mongoose.Schema(
             ref: 'Review',
         }],
 
-        fav_books: [{
+        fav_products: [{
             type: String,
-            ref: 'Book',
+            ref: 'Product',
         }],
 
         cart: {

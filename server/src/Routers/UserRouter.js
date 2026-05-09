@@ -10,11 +10,8 @@ userRouter.get('/:id', UserController.getUser);
 userRouter.post('/', UserController.createUser);
 userRouter.put('/:id', UserController.updateUser);
 userRouter.delete('/:id', UserController.deleteUser);
-userRouter.post('/favorites/remove', AuthMiddlewareHelper.authCheck, UserController.addToFavorites);
+userRouter.post('/favorites/add', AuthMiddlewareHelper.authCheck, UserController.addToFavorites);
 userRouter.delete('/favorites/remove', AuthMiddlewareHelper.authCheck, UserController.removeFromFavorites);
-userRouter.get('/:userId/favorites', [AuthMiddlewareHelper.authCheck], UserController.getFavoriteBooks);
-
-
-
+userRouter.get('/:userId/favorites', [AuthMiddlewareHelper.authCheck], UserController.getFavoriteProducts);
 
 export default userRouter;

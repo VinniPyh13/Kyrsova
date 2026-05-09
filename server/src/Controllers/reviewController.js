@@ -1,4 +1,5 @@
 import ReviewService from '../Services/ReviewService.js';
+import Product from '../Models/Product.js';
 
 class ReviewController {
     async getReviews(req, res) {
@@ -25,8 +26,8 @@ class ReviewController {
 
     async createReview(req, res) {
         try {
-            const { userId, bookId, comment } = req.body;
-            if (!userId || !bookId || !comment) {
+            const { userId, productId, comment } = req.body;
+            if (!userId || !productId || !comment) {
                 return res.status(400).json({ message: 'Missing required fields' });
             }
             const newReview = await ReviewService.create(req.body);

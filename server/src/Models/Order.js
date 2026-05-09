@@ -19,20 +19,11 @@ const OrderSchema = new mongoose.Schema({
     phone: { type: String, required: true },
   },
   items: [{
-    book: {
-      type: String,
-      ref: 'Book',
-      required: true,
-    },
-    quantity: {
-      type: Number,
-      required: true,
-      min: 1,
-    },
-    priceSnapshot: {
-      type: Number,
-      required: true,
-    },
+    product: { type: String, ref: 'Product', required: true }, // Замість book
+    selectedSize: { type: String, required: true },
+    selectedColor: { type: String, required: true },
+    quantity: { type: Number, required: true, min: 1 },
+    priceSnapshot: { type: Number, required: true },
   }],
   total: {
     type: Number,

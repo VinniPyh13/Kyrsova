@@ -1,6 +1,6 @@
 import BaseService from './BaseService.js';
 import Cart from '../Models/Cart.js';
-import Book from '../Models/Book.js';
+import Product from '../Models/Product.js';
 
 class CartService extends BaseService {
     constructor() {
@@ -12,7 +12,7 @@ class CartService extends BaseService {
             throw new Error('User ID is required');
         }
 
-        const cart = await this.model.findOne({ user: userID }).populate('items.book');
+        const cart = await this.model.findOne({ user: userID }).populate('items.product');
         if (!cart) throw new Error('Cart not found');
         return cart;
     }
@@ -23,7 +23,7 @@ class CartService extends BaseService {
             { user: userID },
             data,
             { new: true, upsert: true }
-        ).populate('items.book');
+        ).populate('items.product');
         return updatedCart;
     }
 
@@ -35,10 +35,10 @@ class CartService extends BaseService {
 
         // Повертаємо всі кількості книг
         for (const item of cart.items) {
-            const book = await Book.findById(item.book);
-            if (book) {
-                book.quantity += item.quantity;
-                await book.save();
+            const product = await Product.findById(item.product);
+            if (product) {
+                product.quantity += item.quantity;
+                await product.save();
             }
         }
 
@@ -46,69 +46,96 @@ class CartService extends BaseService {
         return { message: "Cart deleted successfully" };
     }
 
-    async addItem(userID, bookID, quantity = 1, price) {
-        if (!userID || !bookID) throw new Error("User ID та Book ID обов'язкові");
-
-        const book = await Book.findById(bookID);
-        if (!book) throw new Error("Книга не знайдена");
-
-        if (book.quantity < quantity) {
-            throw new Error(`Лише ${book.quantity} книг доступно`);
+    // Ми прибрали параметр price, бо бекенд сам його знайде
+    async addItem(userID, productID, quantity = 1, selectedSize, selectedColor) {
+        if (!userID || !productID || !selectedSize || !selectedColor) {
+            throw new Error("UserID, ProductID, розмір та колір обов'язкові");
         }
 
-        book.quantity -= quantity;
-        await book.save();
+        const product = await Product.findById(productID);
+        if (!product) throw new Error("Товар не знайдено");
+
+        if (product.quantity < quantity) {
+            throw new Error(`Лише ${product.quantity} одиниць доступно`);
+        }
+
+        product.quantity -= quantity;
+        await product.save();
+
+        // 🚨 БЕЗПЕКА: Визначаємо АКТУАЛЬНУ ціну прямо з бази
+        const actualPrice = (product.isSale && product.salePrice) ? product.salePrice : product.price;
 
         let cart = await this.model.findOne({ user: userID });
         if (!cart) {
-            cart = await this.model.create({
-                user: userID,
-                items: [],
-                total: 0
-            });
+            cart = await this.model.create({ user: userID, items: [], total: 0 });
         }
 
-        const existingItemIndex = cart.items.findIndex(item => item.book.toString() === bookID);
+        const existingItemIndex = cart.items.findIndex(
+            item => item.product.toString() === productID && 
+                    item.selectedSize === selectedSize && 
+                    item.selectedColor === selectedColor
+        );
+
         if (existingItemIndex !== -1) {
             cart.items[existingItemIndex].quantity += quantity;
+            // Оновлюємо priceSnapshot на випадок, якщо ціна змінилася, поки товар лежав у кошику
+            cart.items[existingItemIndex].priceSnapshot = actualPrice; 
         } else {
-            cart.items.push({ book: bookID, quantity, priceSnapshot: price });
+            cart.items.push({ 
+                product: productID, 
+                quantity, 
+                priceSnapshot: actualPrice, // Записуємо справжню ціну
+                selectedSize,
+                selectedColor 
+            });
         }
 
         cart.total = cart.items.reduce((sum, item) => sum + item.quantity * item.priceSnapshot, 0);
         await cart.save();
 
-        return cart.populate('items.book');
+        return cart.populate('items.product');
     }
 
-    async removeItem(userID, bookID, quantity = 1) {
-        if (!userID || !bookID) throw new Error('UserID and BookID are required');
+async removeItem(userID, productID, selectedSize, selectedColor, quantity = 1) {
+        // Додали перевірку на наявність розміру та кольору
+        if (!userID || !productID || !selectedSize || !selectedColor) {
+            throw new Error("UserID, ProductID, розмір та колір обов'язкові");
+        }
 
         const cart = await this.model.findOne({ user: userID });
-        if (!cart) throw new Error('Cart not found');
+        if (!cart) throw new Error('Кошик не знайдено');
 
-        const itemIndex = cart.items.findIndex(item => item.book.toString() === bookID);
-        if (itemIndex === -1) throw new Error('Book not in cart');
+        // Шукаємо конкретну варіацію товару в кошику (за ID, розміром та кольором)
+        const itemIndex = cart.items.findIndex(item => 
+            item.product.toString() === productID && 
+            item.selectedSize === selectedSize && 
+            item.selectedColor === selectedColor
+        );
+        
+        if (itemIndex === -1) throw new Error('Товар з такими параметрами не знайдено у кошику');
 
         const item = cart.items[itemIndex];
 
-        // Повертаємо кількість книги
-        const book = await Book.findById(bookID);
-        if (book) {
-            book.quantity += Math.min(quantity, item.quantity);
-            await book.save();
+        // Повертаємо кількість товару на склад (замінили Book на Product)
+        const product = await Product.findById(productID);
+        if (product) {
+            product.quantity += Math.min(quantity, item.quantity);
+            await product.save();
         }
 
+        // Зменшуємо кількість у кошику або повністю видаляємо позицію
         if (item.quantity > quantity) {
             item.quantity -= quantity;
         } else {
             cart.items.splice(itemIndex, 1);
         }
 
-        cart.total = cart.items.reduce((sum, item) => sum + item.quantity * item.priceSnapshot, 0);
+        // Перераховуємо загальну вартість кошика
+        cart.total = cart.items.reduce((sum, currentItem) => sum + currentItem.quantity * currentItem.priceSnapshot, 0);
         await cart.save();
 
-        return cart.populate('items.book');
+        // Повертаємо оновлений кошик (замінили items.product на items.product)
+        return cart.populate('items.product');
     }
 }
 

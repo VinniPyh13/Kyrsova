@@ -10,16 +10,16 @@ class CartController {
         }
     }
 
-async getCartByUser(req, res) {
-    try {
-         console.log("Запит на отримання кршик");
-        const userID = req.user._id;
-        const cart = await CartService.getCartByUser(userID);
-        return res.json(cart);
-    } catch (err) {
-        res.status(404).json({ message: err.message });
+    async getCartByUser(req, res) {
+        try {
+            console.log("Запит на отримання кошика");
+            const userID = req.user._id;
+            const cart = await CartService.getCartByUser(userID);
+            return res.json(cart);
+        } catch (err) {
+            res.status(404).json({ message: err.message });
+        }
     }
-}
 
     async createCart(req, res) {
         try {
@@ -50,31 +50,48 @@ async getCartByUser(req, res) {
         }
     }
 
+    // ВИПРАВЛЕНИЙ МЕТОД ДОДАВАННЯ
     async addItemToCart(req, res) {
-    try {
-        const userID = req.user._id;
-        const { bookID, quantity, price } = req.body;
+        try {
+            const userID = req.user._id;
+            // Беремо productID, розмір та колір замість bookID
+            const { productID, quantity, selectedSize, selectedColor } = req.body;
 
-        const updatedCart = await CartService.addItem(userID, bookID, quantity, price);
-        return res.status(200).json(updatedCart);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+            // Передаємо всі нові параметри у сервіс
+            const updatedCart = await CartService.addItem(
+                userID, 
+                productID, 
+                quantity, 
+                selectedSize, 
+                selectedColor
+            );
+            return res.status(200).json(updatedCart);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
     }
-}
 
+    // ВИПРАВЛЕНИЙ МЕТОД ВИДАЛЕННЯ
+    async removeItemFromCart(req, res) {
+        try {
+            const userID = req.user._id;
+            // Беремо productID, розмір та колір замість bookID
+            const { productID, quantity, selectedSize, selectedColor } = req.body;
 
-async removeItemFromCart(req, res) {
-    try {
-        const userID = req.user._id;
-        const { bookID, quantity } = req.body;
-
-        const updatedCart = await CartService.removeItem(userID, bookID, quantity);
-        return res.json(updatedCart);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+            // Передаємо всі нові параметри у сервіс (порядок має збігатися з методом у CartService)
+            const updatedCart = await CartService.removeItem(
+                userID, 
+                productID, 
+                selectedSize, 
+                selectedColor, 
+                quantity
+            );
+            return res.json(updatedCart);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
     }
-}
-
+    
 }
 
 export default new CartController();
