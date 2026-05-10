@@ -45,6 +45,30 @@ class ReviewService extends BaseService {
 
         return await this.model.findByIdAndUpdate(id, data, { new: true });
     }
+
+    // Services/ReviewService.js
+
+    async delete(id) {
+        const review = await this.model.findById(id);
+        if (!review) {
+            throw new Error('Review not found');
+        }
+
+        // 1. Видаляємо відгук з БД
+        await this.model.findByIdAndDelete(id);
+
+        // 2. Очищаємо масив у користувача
+        await User.findByIdAndUpdate(review.userId, {
+            $pull: { reviews: id }
+        });
+
+        // 3. Очищаємо масив у товару
+        await Product.findByIdAndUpdate(review.productId, {
+            $pull: { reviews: id }
+        });
+
+        return { message: "Review successfully deleted and references removed" };
+    }
 }
 
 export default new ReviewService();

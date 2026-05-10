@@ -6,16 +6,16 @@ class AuthMiddlewareHelper {
 
     async authCheck(req, res, next) {
         try {
-            // 1. БЕЗПЕЧНА ПЕРЕВІРКА: спочатку перевіряємо, чи взагалі є заголовок
+            // 1. БЕЗПЕЧНА ПЕРЕВІРКА заголовка
             const authHeader = req.headers.authorization;
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
                 return res.status(401).json({ message: "Authorization token missing or invalid format" });
             }
 
-            // 2. Тепер безпечно сплітуємо
+            // 2. Дістаємо токен
             const token = authHeader.split(' ')[1];
 
-            // 3. Декодуємо токен
+            // 3. Декодуємо токен і шукаємо користувача
             const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);    
             const user = await User.findOne({ _id: decoded._id });
 
@@ -26,37 +26,33 @@ class AuthMiddlewareHelper {
                 return res.status(401).json({ message: 'Token is fake or expired!' });
             }
             
-            // 4. Передаємо користувача далі
+            // 4. Передаємо користувача далі (це дуже важливо для roleCheck!)
             req.user = user;
             next();
 
         } catch (e) {
-            // Краще повертати JSON з повідомленням про помилку для зручності дебагу
             return res.status(401).json({ message: 'Authorization failed!!', error: e.message });
         }
     }
 
-    roleCheck(role) {
+    roleCheck(requiredRole) {
         return function(req, res, next) {
             try {
-                // ТУТ ТАКОЖ ПОТРІБНА БЕЗПЕЧНА ПЕРЕВІРКА
-                const authHeader = req.headers.authorization;
-                if (!authHeader || !authHeader.startsWith('Bearer ')) {
-                    return res.status(401).json({ message: "Authorization token missing" });
+                // Оскільки authCheck відпрацював першим, ми ВЖЕ маємо користувача в req.user
+                if (!req.user) {
+                    return res.status(401).json({ message: "User not authenticated" });
                 }
 
-                const token = authHeader.split(' ')[1];
-    
-                const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-                const userRoles = decoded.roles || []; // Захист, якщо roles немає в токені
-                
-                if (!userRoles.includes(role)) {
-                    return res.status(403).json({ message: 'You haven`t this role!' });
+                // ПЕРЕВІРКА МАСИВУ РОЛЕЙ
+                // Перевіряємо, чи існує поле roles, чи це масив, і чи є там необхідна роль
+                if (!req.user.roles || !Array.isArray(req.user.roles) || !req.user.roles.includes(requiredRole)) {
+                    return res.status(403).json({ message: "You don't have this role!" });
                 }
 
+                // Якщо все добре — пропускаємо далі до контролера
                 next();
             } catch (e) {
-                return res.status(403).json({ message: 'You haven`t access to this function!' });
+                return res.status(403).json({ message: "Access denied", error: e.message });
             }
         }
     }

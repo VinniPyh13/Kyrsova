@@ -30,9 +30,10 @@ class ProductController {
 
     async getSaleProducts(req, res) {
         try {
-            // Шукаємо лише ті товари, де isSale === true
-            const saleProducts = await Product.find({ isSale: true });
-            res.status(200).json(saleProducts);
+            // Використовуємо сервіс або модель (переконайтесь, що Product імпортовано)
+            const products = await ProductService.getAll(); 
+            const saleProducts = products.filter(p => p.isSale === true);
+            return res.json(saleProducts);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }

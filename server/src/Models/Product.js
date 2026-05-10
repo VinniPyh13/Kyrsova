@@ -49,9 +49,24 @@ const ProductSchema = new mongoose.Schema(
       required: true
     },
     
-    colors: [{ type: String }],
+    /*colors: [{ type: String }],
     
     sizes: [{ type: String }],
+    quantity: { 
+      type: Number, 
+      required: true, 
+      min: [0, "Кількість не може бути від'ємною"], 
+      default: 0 
+    },*/
+
+  variants: [
+    {
+      size: { type: String, required: true },
+      color: { type: String, required: true },
+      quantity: { type: Number, required: true, min: 0 }
+    }
+  ],
+
     
     material: { type: String },
 
@@ -59,13 +74,6 @@ const ProductSchema = new mongoose.Schema(
     subcategories: [{ type: String, ref: 'Subcategory' }],
     
     reviews: [{ type: String, ref: 'Review' }],
-    
-    quantity: { 
-      type: Number, 
-      required: true, 
-      min: [0, "Кількість не може бути від'ємною"], 
-      default: 0 
-    },
     
     images: [{ type: String }]
   }, { timestamps: true }
