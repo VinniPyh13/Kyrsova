@@ -9,6 +9,7 @@ import authRouter from './AuthRouter.js';
 import userRouter from './UserRouter.js';
 import orderRouter from './OrderRouter.js'
 import paypalRouter from './PayPalRouter.js';
+import chatRouter from './ChatRouter.js';
 
 const router = express.Router();
 
@@ -22,5 +23,6 @@ router.use('/subcategories', subcategoryRouter);
 router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/paypal', paypalRouter);
+router.use('/chat', chatRouter);
 
 export default router;

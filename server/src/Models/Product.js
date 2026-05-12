@@ -79,4 +79,7 @@ const ProductSchema = new mongoose.Schema(
   }, { timestamps: true }
 );
 
-export default mongoose.model('Product', ProductSchema);
+// Використовуємо ProductSchema (з великої літери P)
+const Product = mongoose.models.Product || mongoose.model("Product", ProductSchema);
+
+export default Product;
