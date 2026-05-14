@@ -1,0 +1,21 @@
+
+services:
+
+  # Ваш сервер
+  backend:
+    build: ./server
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env  # Docker автоматично завантажить усі змінні з вашого файлу
+
+  # Ваш інтерфейс
+  frontend:
+    build: ./client # шлях до папки з React
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

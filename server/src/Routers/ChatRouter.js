@@ -1,5 +1,5 @@
 import express from 'express';
-import { chatWithAI, getChatHistory } from '../controllers/chatController.js';
+import { chatWithAI, getChatHistory } from '../Controllers/chatController.js';
 import AuthMiddlewareHelper from '../Services/AuthMiddlewareHelper.js'; 
 
 const router = express.Router();

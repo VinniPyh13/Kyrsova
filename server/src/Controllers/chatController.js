@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import Product from "../models/Product.js";
-import Chat from "../models/Chat.js";
+import Product from "../Models/Product.js";
+import Chat from "../Models/Chat.js";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -38,7 +38,7 @@ export const chatWithAI = async (req, res) => {
       };
     });
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     // ОНОВЛЕНО: жорстка інструкція щодо статі
     const systemPrompt = `Ти — персональний стиліст FashionStore. Наші товари: ${JSON.stringify(productContext)}. Відповідай українською. КОЛИ РАДИШ ТОВАР, ОБОВ'ЯЗКОВО ВСТАВЛЯЙ ПОСИЛАННЯ НА НЬОГО! Обов'язково звертай увагу на параметр "gender" товару: якщо клієнт просить жіночий одяг, пропонуй ТІЛЬКИ товари, де gender="Жіночий" або "Унісекс". Якщо просить чоловічий — ТІЛЬКИ "Чоловічий" або "Унісекс".`;
