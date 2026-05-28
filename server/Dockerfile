@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 8000
 
 # Команда для запуску сервера
-CMD ["npm", "start"]
+CMD ["node", "app.js"]
