@@ -3,7 +3,6 @@ import Grid from 'gridfs-stream';
 import { uuid } from "uuidv4"; 
 const { Schema } = mongoose;
 
-// Ініціалізуємо GridFS (залишив твій код для завантаження зображень)
 const conn = mongoose.connection;
 let gfs;
 conn.once('open', () => {
@@ -22,7 +21,7 @@ const ProductSchema = new mongoose.Schema(
     
     brand: { 
       type: String, 
-      required: [true, "Бренд обов'язковий"] // Замість authorName
+      required: [true, "Бренд обов'язковий"]
     },
 
     price: { 
@@ -69,17 +68,18 @@ const ProductSchema = new mongoose.Schema(
 
     
     material: { type: String },
-
     categoryId: [{ type: String, ref: 'Category' }],
     subcategories: [{ type: String, ref: 'Subcategory' }],
-    
     reviews: [{ type: String, ref: 'Review' }],
-    
+    salesCount: { 
+      type: Number, 
+      default: 0, 
+      index: true // Обов'язково для швидкого сортування у великій базі
+    },
     images: [{ type: String }]
   }, { timestamps: true }
 );
 
-// Використовуємо ProductSchema (з великої літери P)
 const Product = mongoose.models.Product || mongoose.model("Product", ProductSchema);
 
 export default Product;

@@ -1,0 +1,122 @@
+/* Фаворити */
+#favorites {
+    padding-top: 1%;
+    padding-bottom: 50px;
+    position: relative;
+}
+
+#favorites::after {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 1px;
+    background-color: #000000;
+    margin-top: 7%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fav_books {
+    display: grid;
+    justify-items: center;
+    grid-auto-flow: column;
+    gap: 50px;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    overflow-y: visible;
+    scrollbar-width: none;
+}
+
+#favorites .book {
+    margin-top: 10px;
+}
+
+.scroll_arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 45px;
+    color: #707070;
+    border: 0;
+    background: 0;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.scroll_arrow.left {
+    left: -50px;
+}
+
+.scroll_arrow.right {
+    right: -50px;
+}
+
+.scroll_arrow:hover {
+    color: #000000;
+}
+
+footer p {
+    font-family: Arial;
+    font-size: 14px;
+    font-style: italic;
+}
+
+footer h1 {
+    font-size: 20px;
+    font-style: italic;
+}
+
+/* Адаптація для мобільних пристроїв */
+@media (max-width: 768px) {
+    #favorites {
+        padding-top: 5%;
+        padding-bottom: 30px;
+    }
+    
+    #favorites::after {
+        width: 80%;
+        margin-top: 15%;
+    }
+    
+    .fav_books {
+        gap: 20px;
+        padding: 0 10px;
+    }
+    
+    .scroll_arrow {
+        font-size: 30px;
+        padding: 5px;
+    }
+    
+    .scroll_arrow.left {
+        left: -30px;
+    }
+    
+    .scroll_arrow.right {
+        right: -30px;
+    }
+    
+    footer p {
+        font-size: 12px;
+    }
+    
+    footer h1 {
+        font-size: 16px;
+    }
+}
+
+/* Для дуже маленьких екранів */
+@media (max-width: 480px) {
+    .scroll_arrow {
+        display: none; /* Приховуємо стрілки на дуже маленьких екранах */
+    }
+    
+    .fav_books {
+        gap: 15px;
+    }
+    
+    #favorites::after {
+        margin-top: 20%;
+    }
+}

@@ -1,0 +1,479 @@
+/* Book List Section */
+#book-list {
+    padding: 2rem 0;
+    margin: 0 auto;
+    max-width: 1600px;
+  }
+  
+  #book-list::after {
+    content: "";
+    display: block;
+    width: 80%;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 2rem auto 0;
+  }
+  
+  /* Filters Section */
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--light-bg);
+    border-radius: 8px;
+  }
+  
+  .filters label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  
+  .filters label:hover {
+    color: var(--text-primary);
+  }
+  
+  .filters select,
+  .filters input[type="text"] {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
+  .filters input[type="checkbox"] {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+
+  .checkbox-label_price{
+    cursor: pointer;
+  }
+  
+  /* Books Grid */
+  .books {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    justify-content: center; /* Центрує сітку */
+  }
+
+  /* Price Range Modal (Price Filter) */
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: #fff;
+  border-right: 1px solid #ccc;
+  padding: 100px 20px 40px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1050;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.menu.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu h1 {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #000;
+}
+
+.menu__list li {
+  margin-bottom: 20px;
+}
+
+.menu__list li:last-child {
+  margin-bottom: 0;
+}
+
+.menu__link {
+  text-decoration: none;
+  color: #000;
+  font-size: 18px;
+  display: block;
+  padding: 8px 0;
+  transition: color 0.3s ease;
+}
+
+.menu__link:hover {
+  color: #0077cc;
+}
+.section-title {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'jsMath-cmbx10', sans-serif;
+}
+
+/* Filters Container */
+.filters-container {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.filter-select:focus {
+  border-color: #e45a4c;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(228, 90, 76, 0.2);
+}
+
+.price-filter-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s;
+}
+
+.price-filter-button:hover {
+  border-color: #e45a4c;
+}
+
+.price-filter-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #e45a4c;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+.favorite-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: #555;
+  font-weight: 500;
+}
+
+.favorite-checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: #e45a4c;
+}
+
+/* Price Filter Menu */
+.price-filter-menu {
+  position: absolute;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  z-index: 100;
+  margin-top: 0.5rem;
+  width: 300px;
+}
+
+.price-filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.price-filter-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #777;
+}
+
+.price-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.price-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price-input-group label {
+  min-width: 40px;
+  color: #555;
+}
+
+.price-input-group input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.price-filter-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.apply-button, .reset-button {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.apply-button {
+  background-color: #e45a4c;
+  color: white;
+  border: none;
+}
+
+.apply-button:hover {
+  background-color: #c14a3e;
+}
+
+.reset-button {
+  background-color: white;
+  border: 1px solid #ddd;
+  color: #555;
+}
+
+.reset-button:hover {
+  background-color: #f5f5f5;
+}
+
+/* Стилі для кнопки "Дивитися далі" */
+.load-more-section {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.load-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #e45a4c;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.load-more-btn:hover {
+  background-color: #c14a3e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.load-more-btn:active {
+  transform: translateY(0);
+}
+
+.load-more-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.load-more-btn:hover svg {
+  transform: translateX(3px);
+}
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .filters {
+      grid-template-columns: 1fr;
+    }
+    
+    .books {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+      
+  .load-more-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  }
+  
+  @media (max-width: 480px) {
+
+  }
+  /* Mobile Styles for BooksList */
+@media (max-width: 768px) {
+  #book-list {
+    padding: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .filters-container {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .filters-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .filter-select,
+  .price-filter-button {
+    padding: 0.65rem;
+    font-size: 0.9rem;
+  }
+
+  .price-filter-menu {
+    width: 90%;
+    left: 5%;
+    right: 5%;
+    padding: 1rem;
+  }
+
+  .price-inputs {
+    flex-direction: column;
+  }
+
+  .price-input-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price-input-group input {
+    width: 100%;
+  }
+
+  .books {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .load-more-section {
+    margin: 2rem 0;
+  }
+
+  .load-more-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .filters-container {
+    padding: 0.75rem;
+  }
+
+  .books {
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 0.75rem;
+    padding-left: 180px;
+  }
+
+  .price-filter-menu {
+    width: 100%;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+  }
+
+  .price-filter-actions {
+    flex-direction: column;
+  }
+
+  .apply-button,
+  .reset-button {
+    width: 100%;
+  }
+}
+
+/* Special adjustments for very small screens */
+@media (max-width: 360px) {
+  .books {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-select,
+  .price-filter-button {
+    font-size: 0.8rem;
+  }
+}

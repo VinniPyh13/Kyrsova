@@ -1,0 +1,502 @@
+.product-page {
+  display: flex;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* ЛІВА КОЛОНКА (Зображення) */
+.left-column {
+  flex: 1;
+  max-width: 500px;
+}
+
+.main-image-container {
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  cursor: zoom-in;
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.thumbnail:hover, .thumbnail.active {
+  opacity: 1;
+  border: 2px solid #111;
+}
+
+/* ПРАВА КОЛОНКА (Інформація) */
+.right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.product-header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+.wishlist-icon {
+  font-size: 2rem;
+  color: #ccc;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.wishlist-icon.active {
+  color: #e74c3c;
+}
+
+.rating-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+/* ЦІНИ */
+.price-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.price {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.regular-price, .sale-price {
+  color: #111;
+}
+
+.sale-price {
+  color: #e74c3c;
+}
+
+.old-price {
+  font-size: 1.2rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.discount-badge {
+  background-color: #e74c3c;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* ВАРІАЦІЇ (Розмір, Колір) */
+.variations-container {
+  margin: 25px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.variation-group h4 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.selected-val {
+  color: #111;
+  font-weight: 600;
+}
+
+.options-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.option-btn {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background-color: white;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.option-btn:hover {
+  border-color: #111;
+}
+
+.option-btn.selected {
+  background-color: #111;
+  color: #d8a051;
+  border-color: #111;
+}
+
+/* КНОПКА КОШИКА */
+.product-actions {
+  margin-bottom: 30px;
+}
+
+.add-to-cart-primary {
+  width: 100%;
+  padding: 15px;
+  background-color: #111;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-to-cart-primary:hover {
+  background-color: #d8a051;
+}
+
+.out-of-stock-alert {
+  width: 100%;
+  padding: 15px;
+  background-color: #f5f5f5;
+  color: #999;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+/* ОПИС */
+.product-description {
+  margin-bottom: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.product-description h3 {
+  margin-bottom: 15px;
+}
+
+.meta-categories {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* ВІДГУКИ */
+.reviews-section {
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-review-btn {
+  padding: 8px 15px;
+  background-color: transparent;
+  border: 1px solid #111;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.add-review-btn:hover {
+  background-color: #111;
+  color: white;
+}
+
+.review-card {
+  padding: 20px;
+  background-color: #fdfdfd;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.user-info {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #111;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.review-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.review-actions .action-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.review-actions .edit-btn:hover { color: #2ecc71; }
+.review-actions .delete-btn:hover { color: #e74c3c; }
+
+/* МОДАЛЬНЕ ВІКНО */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000;
+}
+
+.modal-content_review {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.modal-content_review textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 15px 0;
+  resize: vertical;
+}
+
+.submit-review-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #111;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* Темний фон на весь екран */
+.modal-product {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85); /* Трохи темніший фон для кращого контрасту */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px); /* Гарний ефект розмиття заднього фону */
+}
+
+/* Блок, у якому лежить картинка */
+.modal-content {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 10px; /* Рамка навколо фото */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  
+  /* ФІКСОВАНІ МЕЖІ РОЗМІРІВ */
+  min-width: 300px;
+  min-height: 400px;
+  max-width: 85vw; /* Займає максимум 85% ширини екрану */
+  max-height: 85vh; /* Займає максимум 85% висоти екрану */
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Сама картинка */
+.modal-image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(85vh - 20px); /* 20px віднімаємо на padding (10px зверху + 10px знизу) */
+  object-fit: contain; /* КЛЮЧОВЕ: картинка масштабується пропорційно, щоб повністю влізти у блок */
+  border-radius: 8px;
+}
+
+/* Навігаційні кнопки (на всяк випадок, щоб вони рівно стояли по боках картинки) */
+.modal-navigation button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  color: #1a202c;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-navigation button:hover {
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Розносимо кнопки по краях */
+.prev-button {
+  left: 15px;
+}
+
+.next-button {
+  right: 15px;
+}
+/* Контейнер навігації на сторінці товару */
+.product-page-navigation {
+  max-width: 1300px;
+  margin: 20px auto 10px auto;
+  padding: 0 20px;
+}
+
+/* Стилі для кнопки Назад */
+.back-to-catalog-btn {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.back-to-catalog-btn span {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Ефект наведення миші */
+.back-to-catalog-btn:hover {
+  color: #111;
+}
+
+.back-to-catalog-btn:hover span {
+  transform: translateX(-4px); /* Стрілочка злегка зміщується ліворуч, підштовхуючи до дії */
+}
+.size-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+  margin-bottom: 8px;
+}
+
+.size-header-container h4 {
+  margin: 0;
+}
+
+.size-guide-trigger-btn {
+  background: none;
+  border: none;
+  color: #718096;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.size-guide-trigger-btn:hover {
+  color: #111;
+}
+
+/* Щоб кнопки не перекривали фото на телефонах */
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 95vw;
+    max-height: 90vh;
+    padding: 5px;
+  }
+  
+  .modal-image {
+    max-height: calc(90vh - 10px);
+  }
+}
+/* АДАПТИВНІСТЬ */
+@media (max-width: 768px) {
+  .product-page {
+    flex-direction: column;
+  }
+  .main-image-container {
+    max-height: 500px;
+  }
+}

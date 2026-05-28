@@ -1,0 +1,130 @@
+/* Темний фон на весь екран */
+.search-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Затемнення */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15vh; /* Щоб попап був трохи вище центру */
+  z-index: 2000;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Вікно попапу */
+.search-popup-content {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  padding: 30px 40px;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  animation: slideDown 0.3s ease-out;
+}
+
+.search-popup-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.search-popup-close:hover {
+  color: #111;
+}
+
+.search-popup-content h2 {
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #111;
+}
+
+.search-popup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-popup-input {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-popup-input:focus {
+  border-color: #111;
+}
+
+/* Перемикач Жінкам / Чоловікам */
+.search-popup-gender-selector {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.gender-radio {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #777;
+  transition: all 0.2s;
+}
+
+.gender-radio input {
+  display: none; /* Ховаємо стандартний кружечок */
+}
+
+.gender-radio.active {
+  background-color: #111;
+  color: white;
+  border-color: #111;
+}
+
+/* Кнопка пошуку */
+.search-popup-submit {
+  width: 100%;
+  padding: 15px;
+  background-color: #d8a051; /* Твій помаранчевий акцент */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-popup-submit:hover {
+  background-color: #c48c40;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

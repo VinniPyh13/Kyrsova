@@ -1,0 +1,91 @@
+/* --- СТИЛІ ДЛЯ КАРТОК ТОВАРУ В ЧАТІ --- */
+
+.chat-product-card {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 12px 0;
+  text-decoration: none !important; /* Прибираємо підкреслення посилання */
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  max-width: 320px; /* Картка не буде на всю ширину повідомлення */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.chat-product-card:hover {
+  background: #fdfdfd;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  border-color: #d0d0d0;
+}
+
+.chat-product-img {
+  width: 65px;
+  height: 85px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+  background-color: #f0f0f0;
+}
+
+.chat-product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chat-product-info h4 {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  color: #111;
+  font-weight: 600;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Обрізаємо довгі назви */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chat-product-price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-price-normal, .chat-price-new {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+}
+
+.chat-price-new {
+  color: #e53935; /* Червоний для акції */
+}
+
+.chat-price-old {
+  font-size: 13px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.chat-product-loading {
+  font-size: 13px;
+  color: #888;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin: 10px 0;
+  display: inline-block;
+}
+
+.chat-regular-link {
+  color: #111;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

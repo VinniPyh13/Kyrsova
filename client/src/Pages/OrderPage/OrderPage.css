@@ -1,0 +1,281 @@
+/* Основний фон сторінки */
+.order-page-wrapper {
+    background-color: #f4f7f9;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+/* Центральна картка замовлення */
+.order-page-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+}
+
+/* Шапка: Заголовок і статус */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f4f8;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.order-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0;
+}
+
+/* Статуси */
+.order-status {
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-processing { background-color: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.status-shipped { background-color: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+.status-delivered { background-color: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+
+/* Сітка для інформації (Деталі + Контакти) */
+.order-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.info-block {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid #edf2f7;
+}
+
+.info-subtitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #4a5568;
+    margin: 0 0 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    color: #718096;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.info-value {
+    color: #2d3748;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+    word-break: break-word;
+}
+
+.total-price {
+    font-size: 16px;
+    color: #1a202c;
+    font-weight: 800;
+}
+
+/* Список товарів (ОДЯГ) */
+.order-items-section {
+    margin-bottom: 40px;
+}
+
+.items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item-card {
+    display: flex;
+    gap: 25px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    align-items: stretch;
+}
+
+/* КОНТЕЙНЕР ФОТО: Жорстка фіксація розміру */
+.item-image-wrapper {
+    flex-shrink: 0;
+    width: 100px;
+    height: 130px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f1f5f9;
+}
+
+.item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* КОНТЕЙНЕР ТЕКСТУ: Запобігає випадінню тексту */
+.item-details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.item-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 10px 0;
+    line-height: 1.3;
+}
+
+/* Варіанти: Розмір і Колір */
+.item-variants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.variant-badge {
+    background: #edf2f7;
+    color: #4a5568;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+/* Блок з підрахунком ціни */
+.item-price-calc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.calc-details {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #718096;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.item-multiplier {
+    color: #cbd5e0;
+}
+
+.item-total-price {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a202c;
+}
+
+/* Кнопка повернення */
+.order-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.btn-back {
+    background: #ffffff;
+    color: #4a5568;
+    border: 1px solid #cbd5e0;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background: #f8fafc;
+    color: #1a202c;
+    border-color: #a0aec0;
+}
+
+/* Стани завантаження та помилки */
+.loading-container, .error-container, .not-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    font-size: 18px;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+/* Адаптивність для мобільних пристроїв */
+@media (max-width: 650px) {
+    .order-page-card {
+        padding: 20px;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .order-info-grid {
+        grid-template-columns: 1fr; /* Блоки стають один під одним */
+        gap: 20px;
+    }
+
+    .item-card {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .item-image-wrapper {
+        width: 80px;
+        height: 110px;
+    }
+
+    .item-name {
+        font-size: 16px;
+    }
+
+    .item-total-price {
+        font-size: 16px;
+    }
+}

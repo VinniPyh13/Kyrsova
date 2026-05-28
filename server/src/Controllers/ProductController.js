@@ -19,8 +19,28 @@ class ProductController {
         }
     }
 
+    /*async getProducts(req, res) {
+        try {
+            const products = await ProductService.getAll();
+            return res.json(products);
+        } catch (e) {
+            res.status(500).json({ message: e.message });
+        }
+    }*/
+
     async getProducts(req, res) {
         try {
+            const { sort } = req.query;
+
+            // Якщо фронтенд просить сортування за популярністю
+            if (sort === 'popular') {
+                // Звертаємося напряму до моделі або через кастомний метод сервісу
+                // .sort({ salesCount: -1 }) сортує від найбільшої кількості продажів до найменшої
+                const products = await Product.find().sort({ salesCount: -1 });
+                return res.json(products);
+            }
+
+            // Стандартна логіка за замовчуванням (всі підряд)
             const products = await ProductService.getAll();
             return res.json(products);
         } catch (e) {

@@ -1,0 +1,122 @@
+.category-block-wrapper {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px; /* Відступ до блоку фільтрів, який буде під ним */
+}
+
+.category-block-title {
+  margin: 0 0 15px 0;
+  font-size: 1.2rem;
+  color: #111;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.category-block-loader {
+  padding: 20px;
+  text-align: center;
+  color: #777;
+  font-size: 0.9rem;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.category-header:hover {
+  background-color: #f9f9f9;
+}
+
+.category-header.active .category-name {
+  color: #d8a051; /* Активний помаранчевий колір */
+  font-weight: 700;
+}
+
+.category-name {
+  font-size: 1rem;
+  color: #333;
+  flex-grow: 1;
+  transition: color 0.2s;
+}
+
+.category-header:hover .category-name {
+  color: #111;
+}
+
+.category-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 0.7rem;
+  color: #999;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.3s ease, color 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-toggle-btn:hover {
+  color: #111;
+}
+
+.category-toggle-btn.rotated {
+  transform: rotate(180deg);
+}
+
+.subcategory-list {
+  list-style: none;
+  padding: 0 0 0 15px;
+  margin: 5px 0 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-left: 2px solid #f0f0f0;
+  margin-left: 15px;
+}
+
+.subcategory-item {
+  font-size: 0.9rem;
+  color: #666;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.subcategory-item:hover {
+  color: #111;
+  background-color: #f9f9f9;
+}
+
+.subcategory-item.active {
+  color: #d8a051;
+  font-weight: 600;
+  background-color: #fff9f0; /* Легкий помаранчевий фон для виділення */
+}

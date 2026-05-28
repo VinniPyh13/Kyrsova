@@ -1,0 +1,101 @@
+.recently-viewed-section {
+  margin-top: 60px;
+  
+  /* МАГІЧНИЙ ФІКС: ізолює проблему тільки в межах цього компонента */
+  width: 0;
+  min-width: 100%;
+  
+  position: relative;
+  overflow: hidden; /* Захищає від тіней, що вилазять */
+}
+
+/* Контейнер для заголовка та стрілок */
+.recently-viewed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+}
+
+.recently-viewed-title {
+  font-size: 1.8rem;
+  color: #111;
+  text-transform: uppercase;
+  margin: 0;
+  border: none; /* Прибираємо старий бордер */
+  padding: 0;
+}
+
+/* СТИЛІ СТРІЛОК */
+.carousel-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.carousel-btn {
+  background: #111;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.carousel-btn:hover {
+  background: #d8a051;
+  transform: scale(1.1);
+}
+
+/* КОНТЕЙНЕР ДЛЯ РЯДКА */
+.recently-viewed-container {
+  position: relative;
+  width: 100%;
+}
+
+.recently-viewed-row {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+  
+  /* Ховаємо скролбар */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.recently-viewed-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* КОЖНА КАРТКА */
+.recently-viewed-item {
+  flex: 0 0 250px; /* Фіксована ширина, щоб не налізали */
+  width: 250px;
+  box-sizing: border-box;
+}
+
+.recently-viewed-section {
+  margin-top: 60px;
+  width: 100%;
+  position: relative;
+  overflow: hidden; /* Додаємо це, щоб обрізати невидимі "хвости" */
+}
+
+/* Адаптивність: на мобільних стрілки можна приховати, бо там зручніше гортати пальцем */
+@media (max-width: 768px) {
+  .carousel-controls {
+    display: none;
+  }
+  .recently-viewed-title {
+    font-size: 1.4rem;
+  }
+}

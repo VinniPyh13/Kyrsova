@@ -1,0 +1,298 @@
+/* Основний фон та контейнер */
+.add-product-wrapper {
+    background-color: #f4f7f9;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.add-product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Шапка */
+.header-actions {
+    margin-bottom: 30px;
+}
+
+.btn-back-admin {
+    background: none;
+    border: none;
+    color: #4a5568;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 12px;
+    transition: color 0.2s;
+}
+
+.btn-back-admin:hover {
+    color: #1a202c;
+    text-decoration: underline;
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0;
+}
+
+/* Макет форми: дві колонки */
+.form-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* Блоки секцій */
+.image-upload-section,
+.details-section,
+.categories-section {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #edf2f7;
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+/* --- ЛІВА КОЛОНКА: ФОТО --- */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.image-preview-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4; /* Пропорція для одягу */
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.image-preview-card .thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-img-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #e53e3e;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: 0.2s;
+}
+
+.remove-img-btn:hover {
+    background: #e53e3e;
+    color: white;
+}
+
+.upload-box {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border: 2px dashed #cbd5e0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f8fafc;
+    transition: 0.2s;
+}
+
+.upload-box:hover {
+    border-color: #3182ce;
+    background: #ebf8ff;
+}
+
+.upload-box input {
+    display: none;
+}
+
+.upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    color: #4a5568;
+    font-size: 13px;
+    font-weight: 600;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+.upload-icon {
+    font-size: 24px;
+    color: #a0aec0;
+    margin-bottom: 5px;
+}
+
+.upload-hint {
+    font-size: 12px;
+    color: #a0aec0;
+    text-align: center;
+    display: block;
+}
+
+/* --- ПРАВА КОЛОНКА: ФОРМА --- */
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.form-group.half {
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #2d3748;
+    transition: all 0.2s;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+/* Категорії (Чіпи) */
+.chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chip-radio, .chip-checkbox {
+    position: relative;
+    cursor: pointer;
+}
+
+.chip-radio input, .chip-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.chip-radio span, .chip-checkbox span {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.chip-radio.active span, .chip-radio input:checked ~ span {
+    background: #ebf8ff;
+    color: #2b6cb0;
+    border-color: #90cdf4;
+}
+
+.chip-checkbox.active span, .chip-checkbox input:checked ~ span {
+    background: #f0fdf4;
+    color: #276749;
+    border-color: #9ae6b4;
+}
+
+/* Кнопка відправки */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-submit {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+}
+
+.btn-submit:hover:not(:disabled) {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+    background: #a7f3d0;
+    cursor: not-allowed;
+}
+
+/* Адаптивність */
+@media (max-width: 850px) {
+    .form-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .image-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

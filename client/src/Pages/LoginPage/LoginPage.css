@@ -1,0 +1,102 @@
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh; /* Трохи збільшив висоту для кращого візуального балансу */
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.login-container {
+  background: white;
+  padding: 50px !important; /* Збільшив внутрішні відступи */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 550px; /* Збільшив ширину контейнера, тепер як у реєстрації */
+}
+
+.zagolovok {
+  text-align: center; /* Вирівнювання заголовка по центру */
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #111;
+}
+
+/* Стилі для полів вводу та лейблів */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px; /* Відступ між блоками вводу */
+}
+
+.form-row label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-row input {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+.form-row input:focus {
+  border-color: #111;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05); /* Легке підсвічування при фокусі */
+}
+
+.login-button {
+  width: 100%;
+  padding: 14px; /* Збільшив кнопку */
+  background-color: #111;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background 0.3s;
+}
+
+.login-button:hover {
+  background-color: #333;
+}
+
+.error-message {
+  text-align: center;
+  background: #fdf2f2;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.register-prompt {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 15px;
+  border-top: 1px solid #eee;
+  padding-top: 25px;
+}
+
+.register-btn {
+  color: #111;
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 5px;
+  border-bottom: 1px solid #111;
+  transition: all 0.2s;
+}
+
+.register-btn:hover {
+  color: #d8a051;
+  border-color: #d8a051;
+}
