@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_URL from '../../apiUrl';
 import { Link } from 'react-router-dom';
 import './ChatProductCard.css'; // Використовуємо той самий файл стилів
 
@@ -9,7 +10,7 @@ const ChatProductCard = ({ productId }) => {
   useEffect(() => {
     // Робимо запит до твого бекенду, щоб отримати дані конкретного товару
     // Переконайся, що цей роут (/api/products/:id) у тебе існує і працює!
-    fetch(`http://localhost:8000/api/products/${productId}`)
+    fetch(`${API_URL}/api/products/${productId}`)
       .then(res => res.json())
       .then(data => {
         // Якщо бекенд повертає об'єкт товару

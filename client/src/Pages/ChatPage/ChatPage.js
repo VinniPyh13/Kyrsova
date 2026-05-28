@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import { Link } from 'react-router-dom';
 import ChatProductCard from '../../Components/ChatProductCard/ChatProductCard';
 import './ChatPage.css';
+import API_URL from '../../apiUrl';
 
 // Правило для малювання карток товарів
 const markdownRenderers = {
@@ -68,7 +69,7 @@ const ChatPage = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:8000/api/chat/history', {
+        const response = await fetch(`${API_URL}/api/chat/history`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
