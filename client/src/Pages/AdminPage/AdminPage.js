@@ -9,11 +9,18 @@ function AdminPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // ВИПРАВЛЕНО: Створюємо асинхронну функцію всередині ефекту
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/products", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await fetch(
+          "/api/products?fields=title price salePrice isSale brand categoryId subcategories variants quantity reviews images",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (!res.ok) throw new Error("Не вдалося завантажити товари");
+        
         const data = await res.json();
         setProducts(data);
       } catch (err) {
@@ -23,6 +30,7 @@ function AdminPage() {
       }
     };
 
+    // Викликаємо її
     fetchProducts();
   }, [token]);
 
@@ -140,7 +148,6 @@ function AdminPage() {
                       {subcategoryNames}
                     </p>
                     
-                    {/* ВІДОБРАЖЕННЯ ОНОВЛЕНОГО СКЛАДУ */}
                     <p className="stock-info">
                       <span className="meta-label">Склад:</span>
                       <span

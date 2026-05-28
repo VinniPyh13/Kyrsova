@@ -1,4 +1,5 @@
 import ProductService from '../Services/ProductService.js';
+import Product from '../Models/Product.js'; // ПЕРЕВІР ІМПОРТ МОДЕЛІ
 
 class ProductController {
     async createProduct(req, res) {
@@ -19,40 +20,43 @@ class ProductController {
         }
     }
 
-    /*async getProducts(req, res) {
-        try {
-            const products = await ProductService.getAll();
-            return res.json(products);
-        } catch (e) {
-            res.status(500).json({ message: e.message });
-        }
-    }*/
-
+    // ОПТИМІЗОВАНО: Отримання всіх товарів (включаючи запити від адмінки)
     async getProducts(req, res) {
         try {
-            const { sort } = req.query;
+            const { sort, fields } = req.query;
 
             // Якщо фронтенд просить сортування за популярністю
             if (sort === 'popular') {
-                // Звертаємося напряму до моделі або через кастомний метод сервісу
-                // .sort({ salesCount: -1 }) сортує від найбільшої кількості продажів до найменшої
-                const products = await Product.find().sort({ salesCount: -1 });
+                const products = await Product.find()
+                    .sort({ salesCount: -1 })
+                    .select(fields || ''); // Застосовуємо проєкцію, якщо вона передана
                 return res.json(products);
             }
 
-            // Стандартна логіка за замовчуванням (всі підряд)
-            const products = await ProductService.getAll();
+            // Якщо запит прийшов з адмінки, ми можемо передати кастомний фільтр/проєкцію в сервіс.
+            // Якщо твій ProductService.getAll() приймає аргументи, передаємо туди.
+            // Якщо ні — використовуємо модель напрямую для швидкості:
+            let query = Product.find({});
+            
+            if (fields) {
+                query = query.select(fields); // Витягуємо тільки потрібні поля
+            }
+
+            const products = await query;
             return res.json(products);
         } catch (e) {
             res.status(500).json({ message: e.message });
         }
     }
 
+    // ОПТИМІЗОВАНО: Фільтрація акційних товарів В КЛЮЧІ БАЗИ ДАНИХ (А не через .filter())
     async getSaleProducts(req, res) {
         try {
-            // Використовуємо сервіс або модель (переконайтесь, що Product імпортовано)
-            const products = await ProductService.getAll(); 
-            const saleProducts = products.filter(p => p.isSale === true);
+            // Запит робимо прямо в MongoDB Atlas: "дай тільки товари, де isSale: true"
+            // Також за допомогою .select() обмежуємо поля для каталогу розпродажів
+            const saleProducts = await Product.find({ isSale: true })
+                .select('title price salePrice isSale brand images variants reviews');
+                
             return res.json(saleProducts);
         } catch (error) {
             res.status(500).json({ message: error.message });
@@ -71,7 +75,7 @@ class ProductController {
     async deleteProduct(req, res) {
         try {
             await ProductService.delete(req.params.id);
-            return res.json({ message: 'Товар успішно видалена' });
+            return res.json({ message: 'Товар успішно видалено' }); // Виправив одрук "видалена"
         } catch (e) {
             res.status(500).json({ message: e.message });
         }
