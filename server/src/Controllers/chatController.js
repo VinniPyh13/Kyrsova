@@ -34,7 +34,7 @@ export const chatWithAI = async (req, res) => {
         brand: p.brand,
         sizes: availableSizes.join(", "),
         colors: availableColors.join(", "),
-        link: `http://localhost:3000/product/${p._id}`
+        link: `/product/${p._id}`
       };
     });
 
