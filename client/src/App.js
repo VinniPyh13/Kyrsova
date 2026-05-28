@@ -22,6 +22,7 @@ import { AdminRoute } from "./Components/AdminRoute/AdminRoute";
 import { CatalogPage } from "./Pages/CatalogPage/CatalogPage";
 import SearchPopup from "./Components/SearchPopup/SearchPopup";
 import ChatPage from './Pages/ChatPage/ChatPage';
+import { AnalyticsPage } from "./Pages/AnalyticsPage/AnalyticsPage";
 
 import "./App.css";
 
@@ -454,6 +455,7 @@ const handleToggleFavorite = async (productId) => {
             <Route path="/admin/add_product" element={<AdminRoute><AddProductPage /></AdminRoute>} />
             <Route path="/admin/all_orders" element={<AdminRoute><AllOrdersPage /></AdminRoute>} />
             <Route path="/admin/categories" element={<AdminRoute><CategoriesPage /></AdminRoute>} />
+            <Route path="/admin/analytics" element={<AdminRoute><AnalyticsPage /></AdminRoute>} />
             <Route path="/new" element={<CatalogPage products={products} isProductFavorite={isProductFavorite} handleToggleFavorite={handleToggleFavorite} />} />
             <Route path="/sale" element={<CatalogPage products={products} isProductFavorite={isProductFavorite} handleToggleFavorite={handleToggleFavorite} />} />
             <Route path="/category/:gender" element={<CatalogPage products={products} isProductFavorite={isProductFavorite} handleToggleFavorite={handleToggleFavorite} />} />

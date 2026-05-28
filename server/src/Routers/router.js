@@ -10,6 +10,7 @@ import userRouter from './UserRouter.js';
 import orderRouter from './OrderRouter.js'
 import paypalRouter from './PayPalRouter.js';
 import chatRouter from './ChatRouter.js';
+import AnalyticsRouter from './AnalyticsRouter.js'
 
 const router = express.Router();
 
@@ -24,5 +25,6 @@ router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/paypal', paypalRouter);
 router.use('/chat', chatRouter);
+router.use('/admin/analytics', AnalyticsRouter);
 
 export default router;

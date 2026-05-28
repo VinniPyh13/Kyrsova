@@ -42,6 +42,10 @@ function AdminPage() {
     navigate("/admin/categories");
   };
 
+  const navigateToAnalytics = () => {
+  navigate("/admin/analytics");
+  };
+
   const handleEdit = (id) => {
     navigate(`/admin/edit_product/${id}`);
   };
@@ -82,6 +86,9 @@ function AdminPage() {
           </button>
           <button onClick={navigateToCategories} className="admin-nav-btn">
             Управління категоріями
+          </button>
+          <button onClick={navigateToAnalytics} className="admin-nav-btn analytics-btn-style">
+            Бізнес-аналітика та ефективність ШІ
           </button>
         </div>
 
