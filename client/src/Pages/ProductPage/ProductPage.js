@@ -296,7 +296,34 @@ const ProductPage = ({ fetchCart, isProductFavorite, handleToggleFavorite }) => 
     }
   };
 
-  if (loading) return <div className="loader">Завантаження...</div>;
+  if (loading) return (
+    <div className="product-page-skeleton">
+      <div className="skeleton-nav" />
+      <div className="product-page">
+        <div className="left-column">
+          <div className="skeleton skeleton-main-image" />
+          <div className="skeleton-thumbnails">
+            <div className="skeleton skeleton-thumb" />
+            <div className="skeleton skeleton-thumb" />
+            <div className="skeleton skeleton-thumb" />
+          </div>
+        </div>
+        <div className="right-column">
+          <div className="skeleton skeleton-title-lg" />
+          <div className="skeleton skeleton-title-sm" />
+          <div className="skeleton skeleton-rating" />
+          <div className="skeleton skeleton-price" />
+          <div className="skeleton-sizes">
+            {[1,2,3,4].map(i => <div key={i} className="skeleton skeleton-size-btn" />)}
+          </div>
+          <div className="skeleton skeleton-add-btn" />
+          <div className="skeleton skeleton-line" />
+          <div className="skeleton skeleton-line" />
+          <div className="skeleton skeleton-line-short" />
+        </div>
+      </div>
+    </div>
+  );
   if (!product) return <h2>Товар не знайдено</h2>;
 
   const categoryNames = (Array.isArray(product.categoryId) ? product.categoryId : [product.categoryId])

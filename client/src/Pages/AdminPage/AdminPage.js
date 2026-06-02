@@ -70,13 +70,6 @@ function AdminPage() {
     }
   };
 
-  if (loading)
-    return (
-      <div className="loading-container">
-        <p>Завантаження товарів...</p>
-      </div>
-    );
-
   return (
     <div className="admin-page-wrapper">
       <div className="admin-container">
@@ -100,7 +93,9 @@ function AdminPage() {
         </div>
 
         <div className="product-grid">
-          {products.map((product) => {
+          {loading ? (
+            <p className="products-loading">Завантаження товарів...</p>
+          ) : products.map((product) => {
             const categoryNames =
               (Array.isArray(product.categoryId)
                 ? product.categoryId
