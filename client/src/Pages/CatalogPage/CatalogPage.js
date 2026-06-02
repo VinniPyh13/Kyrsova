@@ -125,11 +125,6 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
     }
 
     if (pageInfo.type === "sale") result = result.filter(p => p.isSale);
-    if (pageInfo.type === "new") {
-        const twoWeeksAgo = new Date();
-        twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
-        result = result.filter(p => new Date(p.createdAt) > twoWeeksAgo);
-    }
     if (pageInfo.type === "men") result = result.filter(p => p.gender === "Чоловічий" || p.gender === "Унісекс");
     if (pageInfo.type === "women") result = result.filter(p => p.gender === "Жіночий" || p.gender === "Унісекс");
 

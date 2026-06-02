@@ -162,6 +162,12 @@
   border-color: #ccc;
 }
 
+.rating {
+  min-height: 22px;
+  display: flex;
+  align-items: center;
+}
+
 .empty-rating {
   font-size: 12px;
   color: #aaa;

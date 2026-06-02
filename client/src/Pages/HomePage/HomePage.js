@@ -6,9 +6,9 @@ import "./HomePage.css";
 
 // В App.js ми передаємо props: products (колишні books), setProducts та handleAddToCart
 export const HomePage = ({ products: products, handleAddToCart, isProductFavorite, handleToggleFavorite }) => {
-  // 1. Беремо перші 4 товари для знижок
-  const discountProducts = products
+  const discountProducts = [...products]
     .filter((product) => product.isSale === true)
+    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
     .slice(0, 6);
 
   // 2. Отримуємо Новинки (сортуємо за датою додавання - від найновіших)

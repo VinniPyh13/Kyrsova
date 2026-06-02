@@ -1,5 +1,5 @@
 import ProductService from '../Services/ProductService.js';
-import Product from '../Models/Product.js'; // ПЕРЕВІР ІМПОРТ МОДЕЛІ
+import Product from '../Models/Product.js';
 
 class ProductController {
     async createProduct(req, res) {
@@ -20,44 +20,55 @@ class ProductController {
         }
     }
 
-    // ОПТИМІЗОВАНО: Отримання всіх товарів (включаючи запити від адмінки)
     async getProducts(req, res) {
         try {
             const { sort, fields } = req.query;
 
-            // Якщо фронтенд просить сортування за популярністю
-            if (sort === 'popular') {
-                const products = await Product.find()
-                    .sort({ salesCount: -1 })
-                    .select(fields || ''); // Застосовуємо проєкцію, якщо вона передана
-                return res.json(products);
-            }
+            let query = sort === 'popular'
+                ? Product.find().sort({ salesCount: -1 })
+                : Product.find({});
 
-            // Якщо запит прийшов з адмінки, ми можемо передати кастомний фільтр/проєкцію в сервіс.
-            // Якщо твій ProductService.getAll() приймає аргументи, передаємо туди.
-            // Якщо ні — використовуємо модель напрямую для швидкості:
-            let query = Product.find({});
-            
+            query = query.populate({ path: 'reviews', select: 'rating' });
+
             if (fields) {
-                query = query.select(fields); // Витягуємо тільки потрібні поля
+                const fieldList = fields.split(' ');
+                if (!fieldList.includes('reviews')) fieldList.push('reviews');
+                query = query.select(fieldList.join(' '));
             }
 
             const products = await query;
-            return res.json(products);
+
+            const productsWithRating = products.map(product => {
+                const obj = product.toObject();
+                const reviews = obj.reviews || [];
+                const averageRating = reviews.length
+                    ? Number((reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length).toFixed(1))
+                    : 0;
+                return { ...obj, averageRating };
+            });
+
+            return res.json(productsWithRating);
         } catch (e) {
             res.status(500).json({ message: e.message });
         }
     }
 
-    // ОПТИМІЗОВАНО: Фільтрація акційних товарів В КЛЮЧІ БАЗИ ДАНИХ (А не через .filter())
     async getSaleProducts(req, res) {
         try {
-            // Запит робимо прямо в MongoDB Atlas: "дай тільки товари, де isSale: true"
-            // Також за допомогою .select() обмежуємо поля для каталогу розпродажів
             const saleProducts = await Product.find({ isSale: true })
-                .select('title price salePrice isSale brand images variants reviews');
-                
-            return res.json(saleProducts);
+                .select('title price salePrice isSale brand images variants reviews')
+                .populate({ path: 'reviews', select: 'rating' });
+
+            const productsWithRating = saleProducts.map(product => {
+                const obj = product.toObject();
+                const reviews = obj.reviews || [];
+                const averageRating = reviews.length
+                    ? Number((reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length).toFixed(1))
+                    : 0;
+                return { ...obj, averageRating };
+            });
+
+            return res.json(productsWithRating);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
@@ -75,7 +86,7 @@ class ProductController {
     async deleteProduct(req, res) {
         try {
             await ProductService.delete(req.params.id);
-            return res.json({ message: 'Товар успішно видалено' }); // Виправив одрук "видалена"
+            return res.json({ message: 'Товар успішно видалено' });
         } catch (e) {
             res.status(500).json({ message: e.message });
         }
