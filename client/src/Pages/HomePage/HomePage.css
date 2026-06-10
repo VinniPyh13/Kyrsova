@@ -123,9 +123,16 @@
 }
 
 .section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 1.8rem;
   color: #111;
   text-transform: uppercase;
+}
+
+.section-title svg {
+  flex-shrink: 0;
 }
 
 .view-all {

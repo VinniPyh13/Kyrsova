@@ -1,5 +1,9 @@
 import UserService from '../Services/UserService.js';
-import Product from '../Models/Product.js'; 
+import Product from '../Models/Product.js';
+import Order from '../Models/Order.js';
+import Cart from '../Models/Cart.js';
+import User from '../Models/User.js';
+import bcrypt from 'bcryptjs';
 
 class UserController {
     async createUser(req, res) {
@@ -54,6 +58,48 @@ class UserController {
             await UserService.delete(req.params.id);
             return res.json({ message: 'Юзер успішно видалений' });
         } catch (e) {
+            res.status(500).json({ message: e.message });
+        }
+    }
+
+    async deleteOwnAccount(req, res) {
+        try {
+            const user = req.user;
+            const { password } = req.body;
+
+            if (!password) {
+                return res.status(400).json({ message: 'Введіть пароль для підтвердження' });
+            }
+
+            const isValid = await bcrypt.compare(password, user.password);
+            if (!isValid) {
+                return res.status(400).json({ message: 'Неправильний пароль' });
+            }
+
+            // Анонімізуємо замовлення (фінансові записи зберігаються, особисті дані — видаляються)
+            await Order.updateMany(
+                { user: user._id },
+                {
+                    $set: {
+                        user: '[ВИДАЛЕНО]',
+                        'contact.name': 'Видалено',
+                        'contact.surname': 'Видалено',
+                        'contact.email': 'deleted@deleted.com',
+                        'contact.phone': '0000000000',
+                    }
+                },
+                { runValidators: false }
+            );
+
+            // Видаляємо кошик
+            await Cart.findOneAndDelete({ user: user._id });
+
+            // Видаляємо акаунт
+            await User.findByIdAndDelete(user._id);
+
+            return res.json({ message: 'Акаунт успішно видалено' });
+        } catch (e) {
+            console.error('deleteOwnAccount error:', e);
             res.status(500).json({ message: e.message });
         }
     }

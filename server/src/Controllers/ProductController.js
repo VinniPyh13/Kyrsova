@@ -26,7 +26,7 @@ class ProductController {
 
             let query = sort === 'popular'
                 ? Product.find().sort({ salesCount: -1 })
-                : Product.find({});
+                : Product.find({}).sort({ createdAt: -1 });
 
             query = query.populate({ path: 'reviews', select: 'rating' });
 

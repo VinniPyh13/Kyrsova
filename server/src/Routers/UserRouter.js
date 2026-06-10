@@ -6,6 +6,7 @@ const userRouter = express.Router();
 
 userRouter.get('/', [AuthMiddlewareHelper.roleCheck("USER"), AuthMiddlewareHelper.authCheck], UserController.getUsers);
 userRouter.get('/me', [AuthMiddlewareHelper.authCheck], UserController.getCurrentUser);
+userRouter.delete('/me', [AuthMiddlewareHelper.authCheck], UserController.deleteOwnAccount);
 userRouter.get('/:id', UserController.getUser);
 userRouter.post('/', UserController.createUser);
 userRouter.put('/:id', UserController.updateUser);

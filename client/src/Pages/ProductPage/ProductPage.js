@@ -86,6 +86,10 @@ const ProductPage = ({ fetchCart, isProductFavorite, handleToggleFavorite }) => 
     return { availableSizes: sizes, availableColors: colors, selectedVariantQuantity: quantity };
   }, [product, selectedSize, selectedColor]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   // Завантаження даних товару
   useEffect(() => {
     const fetchProduct = async () => {

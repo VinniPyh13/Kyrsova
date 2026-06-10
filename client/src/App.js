@@ -23,6 +23,7 @@ import { CatalogPage } from "./Pages/CatalogPage/CatalogPage";
 import SearchPopup from "./Components/SearchPopup/SearchPopup";
 import ChatPage from './Pages/ChatPage/ChatPage';
 import { AnalyticsPage } from "./Pages/AnalyticsPage/AnalyticsPage";
+import { AboutUsPage } from "./Pages/AboutUs/AboutUsPage";
 
 import "./App.css";
 
@@ -355,6 +356,7 @@ const handleToggleFavorite = async (productId) => {
                 <li><Link to="/sale" className="nav-sale-link">Знижка %</Link></li>
                 <li><Link to="/category/men">Чоловічий</Link></li>
                 <li><Link to="/category/women">Жіночий</Link></li>
+                <li><Link to="/about">Про нас</Link></li>
               </ul>
             </nav>
           </div>
@@ -434,6 +436,7 @@ const handleToggleFavorite = async (productId) => {
             <li><Link to="/category/men" className="menu__link" onClick={closeAllMenus}>Чоловічий одяг</Link></li>
             <li><Link to="/category/women" className="menu__link" onClick={closeAllMenus}>Жіночий одяг</Link></li>
             <li><Link to="/sale" className="menu__link nav-sale-link" onClick={closeAllMenus}>Знижка %</Link></li>
+            <li><Link to="/about" className="menu__link" onClick={closeAllMenus}>Про нас</Link></li>
           </ul>
         </div>
 
@@ -459,6 +462,7 @@ const handleToggleFavorite = async (productId) => {
             <Route path="/new" element={<CatalogPage products={products} isProductFavorite={isProductFavorite} handleToggleFavorite={handleToggleFavorite} />} />
             <Route path="/sale" element={<CatalogPage products={products} isProductFavorite={isProductFavorite} handleToggleFavorite={handleToggleFavorite} />} />
             <Route path="/category/:gender" element={<CatalogPage products={products} isProductFavorite={isProductFavorite} handleToggleFavorite={handleToggleFavorite} />} />
+            <Route path="/about" element={<AboutUsPage />} />
           </Routes>
         </main>
 
@@ -468,6 +472,9 @@ const handleToggleFavorite = async (productId) => {
               <p>Контакти:</p>
               <p>Email: <a href="mailto:support@fashionstore.com">support@fashionstore.com</a></p>
               <p>Гаряча лінія: <a href="tel:+380123456789">+38 (xxx) xxx-xx-xx</a></p>
+            </div>
+            <div className="footer-links">
+              <Link to="/about">Про нас</Link>
             </div>
             <div className="footer-bottom">
               &copy; 2026 FashionStore. Всі права захищені.

@@ -53,7 +53,7 @@ class OrderController {
   // Отримати всі замовлення
   async getAllOrders(req, res) {
     try {
-      const orders = await OrderService.getAll();
+      const orders = await Order.find().sort({ createdAt: -1 });
 
       // Підтягуємо інформацію про товари і користувача
       await Order.populate(orders, [

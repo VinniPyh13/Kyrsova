@@ -17,6 +17,10 @@ const MyAccountPage = ({ handleAddToCart }) => {
     phone: ''
   });
   const [validationError, setValidationError] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deleteError, setDeleteError] = useState('');
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -140,10 +144,39 @@ const MyAccountPage = ({ handleAddToCart }) => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    setDeleteError('');
+    setDeleteLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('/api/users/me', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ password: deletePassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setDeleteError(data.message || 'Помилка видалення');
+        return;
+      }
+      localStorage.removeItem('token');
+      navigate('/');
+      window.location.reload();
+    } catch (e) {
+      setDeleteError('Сталася помилка. Спробуйте ще раз.');
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
   if (error) return <p className="error-message">{error}</p>;
   if (!user) return <div className="loader">Завантаження даних профілю...</div>;
 
   return (
+    <>
     <div className="account-container">
       <div className="account-sidebar">
         <div className="user-avatar-large">
@@ -167,6 +200,9 @@ const MyAccountPage = ({ handleAddToCart }) => {
           </button>
           <button className="nav-btn logout" onClick={handleLogout}>
             Вийти з акаунта
+          </button>
+          <button className="nav-btn delete-account" onClick={() => { setShowDeleteModal(true); setDeletePassword(''); setDeleteError(''); }}>
+            Видалити акаунт
           </button>
         </nav>
       </div>
@@ -260,6 +296,39 @@ const MyAccountPage = ({ handleAddToCart }) => {
         )}
       </div>
     </div>
+      {showDeleteModal && (
+        <div className="delete-modal-overlay" onClick={() => setShowDeleteModal(false)}>
+          <div className="delete-modal" onClick={e => e.stopPropagation()}>
+            <div className="delete-modal-icon">!</div>
+            <h2>Видалити акаунт?</h2>
+            <p>Цю дію неможливо скасувати. Ваші особисті дані будуть видалені. Історія замовлень буде анонімізована.</p>
+            <div className="delete-modal-field">
+              <label>Введіть пароль для підтвердження</label>
+              <input
+                type="password"
+                placeholder="Ваш пароль"
+                value={deletePassword}
+                onChange={e => setDeletePassword(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleDeleteAccount()}
+              />
+            </div>
+            {deleteError && <p className="delete-modal-error">{deleteError}</p>}
+            <div className="delete-modal-actions">
+              <button
+                className="delete-modal-confirm"
+                onClick={handleDeleteAccount}
+                disabled={deleteLoading || !deletePassword}
+              >
+                {deleteLoading ? 'Видалення...' : 'Підтвердити видалення'}
+              </button>
+              <button className="delete-modal-cancel" onClick={() => setShowDeleteModal(false)}>
+                Скасувати
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

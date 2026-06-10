@@ -324,15 +324,15 @@ const fetchWarehouses = async (cityRef) => {
             <section className="checkout-block">
   <h2 className="block-title">2. Доставка (Нова Пошта)</h2>
   
-  <div className="search-container">
-    <input 
+  <div className="city-search-container">
+    <input
       type="text"
-      placeholder="Введіть назву міста..." 
+      placeholder="Введіть назву міста..."
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}
       onFocus={() => searchTerm && setShowDropdown(true)}
     />
-    
+
     {showDropdown && filteredCities.length > 0 && (
       <ul className="search-results-dropdown">
         {filteredCities.map(city => (
@@ -444,7 +444,10 @@ const fetchWarehouses = async (cityRef) => {
                     {placingOrder ? 'Оформлення...' : 'Підтвердити замовлення'}
                   </button>
                 ) : (
-                  <div id="paypal-button-container"></div>
+                  <div className="paypal-wrapper">
+                    <p className="paypal-wrapper-label">Оплатіть безпечно через PayPal або карткою</p>
+                    <div id="paypal-button-container"></div>
+                  </div>
                 )}
                 <button className="go-back-btn" onClick={() => navigate(-1)}>Повернутися до кошика</button>
               </div>
