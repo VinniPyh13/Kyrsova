@@ -129,13 +129,88 @@
   border-color: #d8a051;
 }
 
+/* === Крок 2: підтвердження email === */
+.verify-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.code-digit-input {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+  caret-color: transparent;
+}
+
+.code-digit-input:focus {
+  border-color: #111;
+}
+
+.verify-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  color: #111;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  border-bottom: 1px solid #111;
+  padding: 0;
+  margin-left: 4px;
+}
+
+.resend-btn:disabled {
+  color: #aaa;
+  border-color: #aaa;
+  cursor: default;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  margin-top: 6px;
+}
+
+.back-btn:hover {
+  color: #111;
+}
+
 /* Адаптивність для мобільних */
 @media (max-width: 480px) {
   .form-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .register-card {
     padding: 25px 20px;
+  }
+
+  .code-digit-input {
+    width: 40px;
+    height: 48px;
+    font-size: 20px;
   }
 }

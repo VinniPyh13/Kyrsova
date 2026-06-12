@@ -30,6 +30,19 @@ authRouter.post('/registration', [
 ], 
 AuthController.registration);
 
+authRouter.post('/send-code', [
+    check('phone').notEmpty().isMobilePhone().withMessage('Невірний формат телефону'),
+    check('email').notEmpty().isEmail().withMessage('Невірний формат email').normalizeEmail(),
+    check('password')
+        .isLength({ min: 6, max: 16 }).withMessage('Пароль: 6-16 символів')
+        .matches(/\d/).withMessage('Пароль має містити цифру')
+        .matches(/[a-z]/).withMessage('Пароль має містити малу літеру')
+        .matches(/[A-Z]/).withMessage('Пароль має містити велику літеру'),
+],
+AuthController.sendCode);
+
+authRouter.post('/verify-code', AuthController.verifyCode);
+
 authRouter.post('/login', [
     check('email')
         .notEmpty().withMessage('Email is required')
