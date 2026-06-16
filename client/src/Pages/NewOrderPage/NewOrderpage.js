@@ -183,8 +183,9 @@ const fetchWarehouses = async (cityRef) => {
             product: item.product?._id || item.book?._id,
             quantity: item.quantity,
             priceSnapshot: item.priceSnapshot,
-            selectedColor: item.selectedColor, 
-            selectedSize: item.selectedSize
+            selectedColor: item.selectedColor,
+            selectedSize: item.selectedSize,
+            addedVia: item.addedVia
           })),
           total: cart.total,
           city: userData.city,
@@ -246,8 +247,9 @@ const fetchWarehouses = async (cityRef) => {
           product: item.product?._id || item.book?._id,
           quantity: item.quantity,
           priceSnapshot: item.priceSnapshot,
-          selectedColor: item.selectedColor, 
-          selectedSize: item.selectedSize
+          selectedColor: item.selectedColor,
+          selectedSize: item.selectedSize,
+          addedVia: item.addedVia
         })),
         total: cart.total,
         city: userData.city,

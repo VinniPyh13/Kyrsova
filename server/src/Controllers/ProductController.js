@@ -1,5 +1,6 @@
 import ProductService from '../Services/ProductService.js';
 import Product from '../Models/Product.js';
+import ProductView from '../Models/ProductView.js';
 
 class ProductController {
     async createProduct(req, res) {
@@ -87,6 +88,23 @@ class ProductController {
         try {
             await ProductService.delete(req.params.id);
             return res.json({ message: 'Товар успішно видалено' });
+        } catch (e) {
+            res.status(500).json({ message: e.message });
+        }
+    }
+
+    // Трекінг перегляду сторінки товару (для розрахунку реальної конверсії)
+    async trackView(req, res) {
+        try {
+            const { id } = req.params;
+            const { source } = req.body;
+
+            await ProductView.create({
+                product: id,
+                source: source === 'ai_assistant' ? 'ai_assistant' : 'direct'
+            });
+
+            return res.status(204).end();
         } catch (e) {
             res.status(500).json({ message: e.message });
         }

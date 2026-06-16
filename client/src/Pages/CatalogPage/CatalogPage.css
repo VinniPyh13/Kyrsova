@@ -65,8 +65,8 @@
 .sale-banner { 
   background-image: url('https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80'); 
 }
-.new-banner { 
-  background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&q=80'); 
+.new-banner {
+  background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&q=80');
 }
 
 /* Заголовок сторінки, якщо банера немає */

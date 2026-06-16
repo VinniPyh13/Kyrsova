@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import StarRating from "../../Components/StarRating/StarRating.js";
 import useAuthUser from "../../hooks/useAuthUser.js";
@@ -38,6 +38,8 @@ const ProductPage = ({ fetchCart, isProductFavorite, handleToggleFavorite }) => 
   
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+  const [viewSource, setViewSource] = useState("direct");
+  const viewTrackedForId = useRef(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [reviewComment, setReviewComment] = useState("");
@@ -88,6 +90,27 @@ const ProductPage = ({ fetchCart, isProductFavorite, handleToggleFavorite }) => 
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [id]);
+
+  // Трекінг перегляду товару (для розрахунку реальної конверсії на аналітиці)
+  // Маркер зчитуємо й одразу видаляємо, щоб він не "протікав" на наступні сторінки,
+  // відкриті вже не з чату (інакше звичайний перегляд каталогу теж рахувався б як ШІ).
+  // viewTrackedForId захищає від повторного виклику ефекту в React.StrictMode (dev-режим),
+  // інакше другий виклик побачить уже порожній sessionStorage і затре viewSource на "direct"
+  useEffect(() => {
+    if (viewTrackedForId.current === id) return;
+    viewTrackedForId.current = id;
+
+    const marker = sessionStorage.getItem("order_source");
+    const source = marker === "ai_assistant" ? "ai_assistant" : "direct";
+    sessionStorage.removeItem("order_source");
+    setViewSource(source);
+
+    fetch(`/api/products/${id}/view`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ source }),
+    }).catch(() => {});
   }, [id]);
 
   // Завантаження даних товару
@@ -168,10 +191,16 @@ const ProductPage = ({ fetchCart, isProductFavorite, handleToggleFavorite }) => 
       const res = await fetch("/api/cart/add", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token")}` },
-        body: JSON.stringify({ productID: product._id, quantity: 1, selectedSize, selectedColor }),
+        body: JSON.stringify({
+          productID: product._id,
+          quantity: 1,
+          selectedSize,
+          selectedColor,
+          addedVia: viewSource,
+        }),
       });
       if (!res.ok) throw new Error("Не вдалося додати товар до кошика");
-      
+
       addAlert("Товар успішно додано до кошика!", "success");
       if (fetchCart) fetchCart();
     } catch (err) {

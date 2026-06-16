@@ -101,6 +101,7 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
     if (window.location.pathname.includes("/new")) return { title: "Нові надходження", type: "new", banner: "new-banner" };
     if (gender === "men") return { title: "Чоловічий одяг", type: "men", banner: "men-banner" };
     if (gender === "women") return { title: "Жіночий одяг", type: "women", banner: "women-banner" };
+    if (gender === "all") return { title: "Одяг для всіх", type: "all", banner: "all-banner" };
     return { title: "Каталог товарів", type: "all", banner: null };
   }, [gender, window.location.pathname]);
 
@@ -194,7 +195,14 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
 
       <main className="catalog-main">
         {pageInfo.banner && (
-          <div className={`catalog-banner ${pageInfo.banner}`}>
+          <div
+            className={`catalog-banner ${pageInfo.banner}`}
+            style={
+              pageInfo.banner === "all-banner"
+                ? { backgroundImage: `url(${process.env.PUBLIC_URL}/DSC02135-velyke-jpeg.webp)` }
+                : undefined
+            }
+          >
             <div className="banner-overlay">
               <h1>{pageInfo.title}</h1>
               <p>Відкрийте для себе найкращі пропозиції сезону</p>

@@ -24,6 +24,7 @@ const OrderSchema = new mongoose.Schema({
     selectedColor: { type: String, required: true },
     quantity: { type: Number, required: true, min: 1 },
     priceSnapshot: { type: Number, required: true },
+    addedVia: { type: String, enum: ['direct', 'ai_assistant'], default: 'direct' },
   }],
   total: {
     type: Number,

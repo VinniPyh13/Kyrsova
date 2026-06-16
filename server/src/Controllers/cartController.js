@@ -55,15 +55,16 @@ class CartController {
         try {
             const userID = req.user._id;
             // Беремо productID, розмір та колір замість bookID
-            const { productID, quantity, selectedSize, selectedColor } = req.body;
+            const { productID, quantity, selectedSize, selectedColor, addedVia } = req.body;
 
             // Передаємо всі нові параметри у сервіс
             const updatedCart = await CartService.addItem(
-                userID, 
-                productID, 
-                quantity, 
-                selectedSize, 
-                selectedColor
+                userID,
+                productID,
+                quantity,
+                selectedSize,
+                selectedColor,
+                addedVia
             );
             return res.status(200).json(updatedCart);
         } catch (err) {

@@ -21,7 +21,7 @@ export const HomePage = ({ products: products, handleAddToCart, isProductFavorit
       {/* 1. ГОЛОВНИЙ РЕКЛАМНИЙ БАНЕР */}
       <section className="hero-banner">
         <div className="hero-content">
-          <h1>Весняна Колекція 2026</h1>
+          <h1>Літня Колекція 2026</h1>
           <p>Онови свій стиль. Знижки на базовий гардероб до -40%</p>
           <Link to="/sale" className="hero-btn">
   Перейти до розпродажу
@@ -41,6 +41,22 @@ export const HomePage = ({ products: products, handleAddToCart, isProductFavorit
         <Link to="/category/women" className="gender-card women">
           <div className="gender-card-content">
             <h2>Для дівчат</h2>
+            <span className="gender-link">В каталог &rarr;</span>
+          </div>
+        </Link>
+      </section>
+
+      {/* 2.1. БАНЕР "ДЛЯ ВСІХ" НА ВСЮ ШИРИНУ */}
+      <section className="all-banners">
+        <Link
+          to="/category/all"
+          className="gender-card all"
+          style={{
+            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.3)), url(${process.env.PUBLIC_URL}/DSC02135-velyke-jpeg.webp)`,
+          }}
+        >
+          <div className="gender-card-content">
+            <h2>Для всіх</h2>
             <span className="gender-link">В каталог &rarr;</span>
           </div>
         </Link>

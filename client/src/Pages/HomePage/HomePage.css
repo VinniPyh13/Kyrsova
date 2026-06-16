@@ -86,6 +86,17 @@
   background-image: linear-gradient(to top, rgba(0,0,0,0.7), transparent), url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop');
 }
 
+.all-banners {
+  padding: 12px 5% 0;
+}
+
+.gender-card.all {
+  height: 320px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .gender-card-content {
   padding: 30px;
   color: white;

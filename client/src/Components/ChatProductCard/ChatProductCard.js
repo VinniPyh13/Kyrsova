@@ -31,8 +31,12 @@ const ChatProductCard = ({ productId }) => {
     ? product.images[0] 
     : 'https://via.placeholder.com/60x80?text=No+Image';
 
+  const handleClick = () => {
+    sessionStorage.setItem('order_source', 'ai_assistant');
+  };
+
   return (
-    <Link to={`/product/${product._id}`} className="chat-product-card">
+    <Link to={`/product/${product._id}`} className="chat-product-card" onClick={handleClick}>
       <img src={imageUrl} alt={product.title} className="chat-product-img" />
       <div className="chat-product-info">
         <h4>{product.title}</h4>

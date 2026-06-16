@@ -47,7 +47,7 @@ class CartService extends BaseService {
     }
 
     // Ми прибрали параметр price, бо бекенд сам його знайде
-    async addItem(userID, productID, quantity = 1, selectedSize, selectedColor) {
+    async addItem(userID, productID, quantity = 1, selectedSize, selectedColor, addedVia = 'direct') {
         if (!userID || !productID || !selectedSize || !selectedColor) {
             throw new Error("UserID, ProductID, розмір та колір обов'язкові");
         }
@@ -81,12 +81,13 @@ class CartService extends BaseService {
             // Оновлюємо priceSnapshot на випадок, якщо ціна змінилася, поки товар лежав у кошику
             cart.items[existingItemIndex].priceSnapshot = actualPrice; 
         } else {
-            cart.items.push({ 
-                product: productID, 
-                quantity, 
+            cart.items.push({
+                product: productID,
+                quantity,
                 priceSnapshot: actualPrice, // Записуємо справжню ціну
                 selectedSize,
-                selectedColor 
+                selectedColor,
+                addedVia: addedVia === 'ai_assistant' ? 'ai_assistant' : 'direct'
             });
         }
 

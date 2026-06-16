@@ -356,6 +356,7 @@ const handleToggleFavorite = async (productId) => {
                 <li><Link to="/sale" className="nav-sale-link">Знижка %</Link></li>
                 <li><Link to="/category/men">Чоловічий</Link></li>
                 <li><Link to="/category/women">Жіночий</Link></li>
+                <li><Link to="/category/all">Для всіх</Link></li>
                 <li><Link to="/about">Про нас</Link></li>
               </ul>
             </nav>
@@ -435,6 +436,7 @@ const handleToggleFavorite = async (productId) => {
             <li><Link to="/new" className="menu__link nav-new-link" onClick={closeAllMenus}>Новинки</Link></li>
             <li><Link to="/category/men" className="menu__link" onClick={closeAllMenus}>Чоловічий одяг</Link></li>
             <li><Link to="/category/women" className="menu__link" onClick={closeAllMenus}>Жіночий одяг</Link></li>
+            <li><Link to="/category/all" className="menu__link" onClick={closeAllMenus}>Для всіх</Link></li>
             <li><Link to="/sale" className="menu__link nav-sale-link" onClick={closeAllMenus}>Знижка %</Link></li>
             <li><Link to="/about" className="menu__link" onClick={closeAllMenus}>Про нас</Link></li>
           </ul>
