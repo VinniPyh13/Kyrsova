@@ -19,7 +19,7 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
   const selectedSubcategoryId = searchParams.get('subcategory') || null;
   
   const filters = useMemo(() => ({
-    sort: searchParams.get('sort') || "newest",
+    sort: searchParams.get('sort') || (window.location.pathname.includes('/new') ? 'newest' : 'popular'),
     minPrice: searchParams.get('minPrice') || "",
     maxPrice: searchParams.get('maxPrice') || "",
     brands: searchParams.get('brands') ? searchParams.get('brands').split(',') : [],
@@ -106,11 +106,52 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
   }, [gender, window.location.pathname]);
 
   const filterOptions = useMemo(() => {
-    const brands = [...new Set(allProducts.map(p => p.brand))].filter(Boolean);
-    const sizes = [...new Set(allProducts.flatMap(p => p.variants.map(v => v.size)))].filter(Boolean);
-    const colors = [...new Set(allProducts.flatMap(p => p.variants.map(v => v.color)))].filter(Boolean);
+    // Звужуємо пул товарів для фільтр-опцій до поточного контексту:
+    // спочатку за гендером/типом сторінки, потім за обраною категорією та підкатегорією
+    let base = [...allProducts];
+
+    if (pageInfo.type === "sale") base = base.filter(p => p.isSale);
+    if (pageInfo.type === "men") base = base.filter(p => p.gender === "Чоловічий" || p.gender === "Унісекс");
+    if (pageInfo.type === "women") base = base.filter(p => p.gender === "Жіночий" || p.gender === "Унісекс");
+
+    if (selectedCategoryId) {
+      base = base.filter(p => {
+        const catIds = Array.isArray(p.categoryId)
+          ? p.categoryId.map(c => c._id || c)
+          : [p.categoryId?._id || p.categoryId];
+        return catIds.includes(selectedCategoryId);
+      });
+    }
+
+    if (selectedSubcategoryId) {
+      base = base.filter(p => {
+        const subIds = p.subcategories ? p.subcategories.map(s => s._id || s) : [];
+        return subIds.includes(selectedSubcategoryId);
+      });
+    }
+
+    const brands = [...new Set(base.map(p => p.brand))].filter(Boolean);
+    const colors = [...new Set(base.flatMap(p => p.variants.map(v => v.color)))].filter(Boolean);
+
+    const letterSizeOrder = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', '2XL', '3XL', '4XL'];
+    const rawSizes = [...new Set(base.flatMap(p => p.variants.map(v => v.size)))].filter(Boolean);
+    const letterSizes = rawSizes
+      .filter(s => isNaN(Number(s)))
+      .sort((a, b) => {
+        const ai = letterSizeOrder.indexOf(a.toUpperCase());
+        const bi = letterSizeOrder.indexOf(b.toUpperCase());
+        if (ai !== -1 && bi !== -1) return ai - bi;
+        if (ai !== -1) return -1;
+        if (bi !== -1) return 1;
+        return a.localeCompare(b);
+      });
+    const numericSizes = rawSizes
+      .filter(s => !isNaN(Number(s)))
+      .sort((a, b) => Number(a) - Number(b));
+    const sizes = [...letterSizes, ...numericSizes];
+
     return { brands, sizes, colors };
-  }, [allProducts]);
+  }, [allProducts, pageInfo, selectedCategoryId, selectedSubcategoryId]);
 
   // ЛОГІКА ФІЛЬТРАЦІЇ ТА СОРТУВАННЯ
   useEffect(() => {

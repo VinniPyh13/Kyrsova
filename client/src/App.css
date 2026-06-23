@@ -454,6 +454,24 @@ button {
   background-color: var(--border-color);
 }
 
+.cart-item__delete-btn {
+  background: none;
+  border: none;
+  margin-left: auto;
+  padding: 4px;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.cart-item__delete-btn:hover {
+  color: #ef4444;
+  background-color: #fee2e2;
+}
+
 .cart-total {
   list-style: none;
   font-size: 1.2rem;

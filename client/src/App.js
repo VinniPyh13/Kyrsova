@@ -390,6 +390,15 @@ const handleToggleFavorite = async (productId) => {
                     <div className="cart-item__actions">
                       <button className="cart-item__action-btn" onClick={() => handleAddToCart(item.product._id, 1, item.priceSnapshot, item.selectedSize, item.selectedColor)}>+</button>
                       <button className="cart-item__action-btn" onClick={() => handleRemoveFromCart(item.product._id, item.selectedSize, item.selectedColor, 1)}>-</button>
+                      <button className="cart-item__delete-btn" title="Видалити товар" onClick={() => handleRemoveFromCart(item.product._id, item.selectedSize, item.selectedColor, item.quantity)}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                          <path d="M10 11v6" />
+                          <path d="M14 11v6" />
+                          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </li>
