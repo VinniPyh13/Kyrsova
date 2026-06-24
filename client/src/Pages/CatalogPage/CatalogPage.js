@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import ProductCard from "../../Components/ProductCard";
 import Filter from "../../Components/Filter/Filter";
 import RecentlyViewed from "../../Components/RecentlyViewed/RecentlyViewed";
@@ -7,25 +7,28 @@ import CategoryBlock from "../../Components/CategoryBlock/CategoryBlock";
 import "./CatalogPage.css";
 
 const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFavorite, handleAddToCart }) => {
-  const { type, gender } = useParams(); 
+  const { type, gender } = useParams();
+  const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(12);
+  const [visibleCount, setVisibleCount] = useState(15);
 
   // 1. ЗЧИТУЄМО СТАНИ З URL
   const searchQuery = searchParams.get('search') || "";
   const selectedCategoryId = searchParams.get('category') || null;
   const selectedSubcategoryId = searchParams.get('subcategory') || null;
   
+  const isNewPage = pathname.includes('/new');
+
   const filters = useMemo(() => ({
-    sort: searchParams.get('sort') || (window.location.pathname.includes('/new') ? 'newest' : 'popular'),
+    sort: isNewPage ? (searchParams.get('sort') || 'newest') : (searchParams.get('sort') || 'popular'),
     minPrice: searchParams.get('minPrice') || "",
     maxPrice: searchParams.get('maxPrice') || "",
     brands: searchParams.get('brands') ? searchParams.get('brands').split(',') : [],
     sizes: searchParams.get('sizes') ? searchParams.get('sizes').split(',') : [],
     colors: searchParams.get('colors') ? searchParams.get('colors').split(',') : []
-  }), [searchParams]);
+  }), [searchParams, isNewPage]);
 
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
 
@@ -35,7 +38,7 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-  }, [window.location.pathname]); 
+  }, [pathname]);
 
   // Оновлення параметрів фільтрації в URL
   const updateURLParams = (newFilters) => {
@@ -97,13 +100,13 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
   };
 
   const pageInfo = useMemo(() => {
-    if (window.location.pathname.includes("/sale")) return { title: "Розпродаж та Акції", type: "sale", banner: "sale-banner" };
-    if (window.location.pathname.includes("/new")) return { title: "Нові надходження", type: "new", banner: "new-banner" };
+    if (pathname.includes("/sale")) return { title: "Розпродаж та Акції", type: "sale", banner: "sale-banner" };
+    if (pathname.includes("/new")) return { title: "Нові надходження", type: "new", banner: "new-banner" };
     if (gender === "men") return { title: "Чоловічий одяг", type: "men", banner: "men-banner" };
     if (gender === "women") return { title: "Жіночий одяг", type: "women", banner: "women-banner" };
     if (gender === "all") return { title: "Одяг для всіх", type: "all", banner: "all-banner" };
     return { title: "Каталог товарів", type: "all", banner: null };
-  }, [gender, window.location.pathname]);
+  }, [gender, pathname]);
 
   const filterOptions = useMemo(() => {
     // Звужуємо пул товарів для фільтр-опцій до поточного контексту:
@@ -211,7 +214,7 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
     }
 
     setFilteredProducts(result);
-    setVisibleCount(12);
+    setVisibleCount(15);
   }, [allProducts, pageInfo, selectedCategoryId, selectedSubcategoryId, filters, localSearchQuery]);
 
   return (
@@ -286,7 +289,7 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
 
             {visibleCount < filteredProducts.length && (
               <div className="load-more-container">
-                <button className="load-more-btn" onClick={() => setVisibleCount(prev => prev + 12)}>
+                <button className="load-more-btn" onClick={() => setVisibleCount(prev => prev + 15)}>
                   Дивитися далі
                 </button>
               </div>

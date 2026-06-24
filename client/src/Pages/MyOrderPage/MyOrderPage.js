@@ -19,7 +19,7 @@ function MyOrderPage() {
 
         if (!res.ok) throw new Error('Не вдалося отримати замовлення');
         const data = await res.json();
-        setOrders(data);
+        setOrders([...data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
       } catch (err) {
         console.error('Помилка при завантаженні замовлень:', err);
       } finally {
@@ -74,6 +74,12 @@ function MyOrderPage() {
                   <div className="order-summary-item">
                     <span>Доставка:</span>
                     <span className="warehouse-text">{order.warehouse}</span>
+                  </div>
+                  <div className="order-summary-item">
+                    <span>Тип оплати:</span>
+                    <strong>
+                      {order.paymentMethod === 'paypal' ? 'Картою (сплачено)' : 'Післяплата при отриманні'}
+                    </strong>
                   </div>
                 </div>
                 

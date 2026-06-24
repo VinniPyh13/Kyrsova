@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ProductCard from '../../Components/ProductCard'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import ProductCard from '../../Components/ProductCard';
 import './MyAccountPage.css';
 
 const MyAccountPage = ({ handleAddToCart }) => {
+  const location = useLocation();
   const [user, setUser] = useState(null);
-  const [favorites, setFavorites] = useState([]); // Стейт для улюблених товарів
+  const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [activeTab, setActiveTab] = useState('profile'); // 'profile' або 'favorites'
+  const [activeTab, setActiveTab] = useState(location.state?.tab || 'profile');
   
   const [formData, setFormData] = useState({
     firstName: '',

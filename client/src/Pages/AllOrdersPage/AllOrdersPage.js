@@ -145,6 +145,12 @@ function AllOrdersPage() {
                           <span>Доставка:</span>
                           <strong className="warehouse-text" title={order.warehouse}>{order.warehouse}</strong>
                         </div>
+                        <div className="summary-item">
+                          <span>Тип оплати:</span>
+                          <strong>
+                            {order.paymentMethod === 'paypal' ? 'Картою (сплачено)' : 'Післяплата при отриманні'}
+                          </strong>
+                        </div>
                       </div>
 
                       <div className="order-contact-section">

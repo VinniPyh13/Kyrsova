@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, memo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import API_URL from '../../apiUrl';
 
 // Правило для малювання карток товарів
 const markdownRenderers = {
+  p: ({ node, children, ...props }) => <div className="md-p" {...props}>{children}</div>,
   a: ({ node, ...props }) => {
     if (props.href && props.href.includes('/product/')) {
       const urlParts = props.href.split('/product/');
@@ -41,21 +42,33 @@ const ChatPage = () => {
   const [isAuthorized, setIsAuthorized] = useState(true);
   
   const chatContainerRef = useRef(null);
+  const bottomRef = useRef(null);
+  const isHistoryLoad = useRef(false);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = (instant = false) => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTo({
-        top: chatContainerRef.current.scrollHeight,
-        behavior: 'smooth'
-      });
+      const el = chatContainerRef.current;
+      if (instant) {
+        el.scrollTop = el.scrollHeight;
+      } else {
+        el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+      }
     }
   };
+
+  // Після завантаження історії — миттєвий скрол після рендеру DOM
+  useLayoutEffect(() => {
+    if (isHistoryLoad.current && messages.length > 0) {
+      scrollToBottom(true);
+      isHistoryLoad.current = false;
+    }
+  }, [messages]);
 
   // Розумний скрол при живому спілкуванні
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
-    if (isLoading || (lastMessage && lastMessage.role === 'user')) {
-      setTimeout(scrollToBottom, 50); 
+    if (!isHistoryLoad.current && (isLoading || (lastMessage && lastMessage.role === 'user'))) {
+      scrollToBottom(false);
     }
   }, [messages, isLoading]);
 
@@ -80,8 +93,8 @@ const ChatPage = () => {
 
         const data = await response.json();
         if (data.history) {
+          isHistoryLoad.current = true;
           setMessages(data.history);
-          setTimeout(scrollToBottom, 100);
         }
       } catch (error) {
         console.error('Помилка завантаження історії:', error);
@@ -113,9 +126,13 @@ const ChatPage = () => {
       });
 
       const data = await response.json();
-      
+
       if (data.reply) {
         setMessages(prev => [...prev, { role: 'model', parts: [{ text: data.reply }] }]);
+      } else if (response.status === 503) {
+        setMessages(prev => [...prev, { role: 'model', parts: [{ text: "ШІ-асистент зараз перевантажений. Спробуйте надіслати повідомлення ще раз через кілька секунд." }] }]);
+      } else {
+        setMessages(prev => [...prev, { role: 'model', parts: [{ text: "Вибачте, сталася помилка. Спробуйте ще раз." }] }]);
       }
     } catch (error) {
       console.error('Помилка відправки:', error);
@@ -168,7 +185,7 @@ const ChatPage = () => {
           {messages.map((msg, index) => (
             <ChatMessageBubble key={index} msg={msg} />
           ))}
-          
+
           {isLoading && (
             <div className="chat-message-wrapper model">
               <div className="chat-message-bubble loading-dots">
@@ -176,6 +193,7 @@ const ChatPage = () => {
               </div>
             </div>
           )}
+          <div ref={bottomRef} />
         </div>
 
         <form className="chat-page-input-area" onSubmit={sendMessage}>

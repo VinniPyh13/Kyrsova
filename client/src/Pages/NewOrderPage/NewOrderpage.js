@@ -324,7 +324,14 @@ const fetchWarehouses = async (cityRef) => {
             </section>
 
             <section className="checkout-block">
-  <h2 className="block-title">2. Доставка (Нова Пошта)</h2>
+  <h2 className="block-title">
+    2. Доставка — Нова Пошта
+    <img
+      src={`${process.env.PUBLIC_URL}/np-logomark-red.png`}
+      alt="Нова Пошта"
+      className="delivery-logo"
+    />
+  </h2>
   
   <div className="city-search-container">
     <input
@@ -354,7 +361,9 @@ const fetchWarehouses = async (cityRef) => {
     >
       <option value="">Оберіть відділення</option>
       {warehouses.map((wh, idx) => (
-        <option key={idx} value={wh.address}>{wh.address}</option>
+        <option key={idx} value={wh.description}>
+          {wh.number ? `№${wh.number} — ${wh.address}` : wh.address}
+        </option>
       ))}
     </select>
   </div>
@@ -371,8 +380,7 @@ const fetchWarehouses = async (cityRef) => {
                     onChange={() => setPaymentMethod('cod')}
                   />
                   <div className="payment-info">
-                    <span className="payment-name">Накладений платіж</span>
-                    <small>Оплата при отриманні</small>
+                    <span className="payment-name">Післяплата при отриманні</span>
                   </div>
                 </label>
 

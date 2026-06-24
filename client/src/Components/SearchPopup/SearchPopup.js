@@ -50,24 +50,34 @@ const SearchPopup = ({ isOpen, onClose }) => {
 
           <div className="search-popup-gender-selector">
             <label className={`gender-radio ${gender === 'women' ? 'active' : ''}`}>
-              <input 
-                type="radio" 
-                name="gender" 
-                value="women" 
-                checked={gender === 'women'} 
-                onChange={() => setGender('women')} 
+              <input
+                type="radio"
+                name="gender"
+                value="women"
+                checked={gender === 'women'}
+                onChange={() => setGender('women')}
               />
               Жінкам
             </label>
             <label className={`gender-radio ${gender === 'men' ? 'active' : ''}`}>
-              <input 
-                type="radio" 
-                name="gender" 
-                value="men" 
-                checked={gender === 'men'} 
-                onChange={() => setGender('men')} 
+              <input
+                type="radio"
+                name="gender"
+                value="men"
+                checked={gender === 'men'}
+                onChange={() => setGender('men')}
               />
               Чоловікам
+            </label>
+            <label className={`gender-radio ${gender === 'all' ? 'active' : ''}`}>
+              <input
+                type="radio"
+                name="gender"
+                value="all"
+                checked={gender === 'all'}
+                onChange={() => setGender('all')}
+              />
+              Для всіх
             </label>
           </div>
 

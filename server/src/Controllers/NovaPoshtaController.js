@@ -50,6 +50,7 @@ export const getWarehouses = async (req, res) => {
     const warehouses = data.data.map((warehouse) => ({
       description: warehouse.Description,
       address: warehouse.ShortAddress,
+      number: warehouse.Number,
       phone: warehouse.Phone,
       schedule: warehouse.Schedule,
       maxWeight: warehouse.TotalMaxWeightAllowed,

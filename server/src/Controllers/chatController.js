@@ -57,7 +57,22 @@ export const chatWithAI = async (req, res) => {
       ],
     });
 
-    const result = await chat.sendMessage(message);
+    let result;
+    const maxRetries = 3;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        result = await chat.sendMessage(message);
+        break;
+      } catch (err) {
+        const is503 = err.status === 503 || (err.message && err.message.includes('503'));
+        if (is503 && attempt < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, attempt * 2000));
+        } else {
+          throw err;
+        }
+      }
+    }
+
     const responseText = result.response.text();
 
     chatSession.history.push({ role: "user", parts: [{ text: message }] });
@@ -67,7 +82,12 @@ export const chatWithAI = async (req, res) => {
     res.json({ reply: responseText });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "ШІ тимчасово недоступний" });
+    const is503 = error.status === 503 || (error.message && error.message.includes('503'));
+    if (is503) {
+      res.status(503).json({ error: "ШІ зараз перевантажений, спробуйте за кілька секунд" });
+    } else {
+      res.status(500).json({ error: "ШІ тимчасово недоступний" });
+    }
   }
 };
 

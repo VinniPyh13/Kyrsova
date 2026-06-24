@@ -219,8 +219,13 @@
 
 /* --- АДАПТИВНІСТЬ --- */
 @media (max-width: 768px) {
+  .cards {
+    gap: 10px;
+    justify-content: flex-start;
+  }
+
   .product-item {
-    width: 100%;
-    max-width: 200px;
+    width: calc(50% - 5px);
+    max-width: none;
   }
 }

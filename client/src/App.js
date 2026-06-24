@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { RiAccountCircleLine } from "react-icons/ri";
 
@@ -26,6 +26,16 @@ import { AnalyticsPage } from "./Pages/AnalyticsPage/AnalyticsPage";
 import { AboutUsPage } from "./Pages/AboutUs/AboutUsPage";
 
 import "./App.css";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [pathname]);
+  return null;
+}
 
 const Alert = ({ message, type = "success", onClose }) => {
   const [visible, setVisible] = useState(true);
@@ -192,7 +202,12 @@ function App() {
   };
 
   // ФУНКЦІЯ ОТРИМАННЯ КОШИКА
-  const fetchCart = useCallback(async () => {
+  const fetchCart = useCallback(async (updatedCart) => {
+    if (updatedCart) {
+      setCart(updatedCart);
+      return;
+    }
+
     const currentToken = localStorage.getItem("token");
     if (!currentToken) return;
 
@@ -266,6 +281,7 @@ const handleToggleFavorite = async (productId) => {
 
   return (
     <>
+      <ScrollToTop />
       {/* ВИПРАВЛЕНО: app-wrapper тепер обгортає весь сайт і є прямим нащадком body/#root */}
       <div className="app-wrapper">
         
@@ -341,6 +357,11 @@ const handleToggleFavorite = async (productId) => {
                     <span className="cart-badge">{getCartItemCount()}</span>
                   )}
                 </div>
+                <Link to="/my_acc" state={{ tab: 'favorites' }} className="wishlist-btn" title="Список бажаного" aria-label="Список бажаного">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                  </svg>
+                </Link>
                 <button className="account-btn" onClick={toggleAccountMenu} aria-label="Account menu">
                   <RiAccountCircleLine className="account-icon" />
                 </button>
@@ -365,7 +386,10 @@ const handleToggleFavorite = async (productId) => {
 
         {/* Бічні менюшки залишаються всередині структури додатка */}
         <div className={`cart-menu ${cartMenuOpen ? "open" : ""}`}>
-          <h1>Кошик</h1>
+          <div className="cart-menu-header">
+            <h1>Кошик</h1>
+            <button className="cart-menu-close-btn" onClick={closeAllMenus} aria-label="Закрити кошик">&times;</button>
+          </div>
           {!cart || !Array.isArray(cart.items) ? (
             <p>Завантаження...</p>
           ) : cart.items.length > 0 ? (

@@ -171,11 +171,13 @@
 }
 
 /* СТИЛІ ДЛЯ MARKDOWN (Текст від ШІ) */
-.chat-message-bubble p {
+.chat-message-bubble p,
+.chat-message-bubble .md-p {
   margin: 0 0 10px 0;
 }
 
-.chat-message-bubble p:last-child {
+.chat-message-bubble p:last-child,
+.chat-message-bubble .md-p:last-child {
   margin-bottom: 0;
 }
 

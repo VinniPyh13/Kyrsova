@@ -6,12 +6,29 @@
   margin-bottom: 20px; /* Відступ до блоку фільтрів, який буде під ним */
 }
 
-.category-block-title {
-  margin: 0 0 15px 0;
-  font-size: 1.2rem;
-  color: #111;
+.category-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 2px solid #eee;
   padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.category-block-title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #111;
+}
+
+.category-toggle-mobile {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  color: #666;
+  cursor: pointer;
+  padding: 4px 8px;
 }
 
 .category-block-loader {
@@ -118,5 +135,19 @@
 .subcategory-item.active {
   color: #d8a051;
   font-weight: 600;
-  background-color: #fff9f0; /* Легкий помаранчевий фон для виділення */
+  background-color: #fff9f0;
+}
+
+@media (max-width: 992px) {
+  .category-toggle-mobile {
+    display: block;
+  }
+
+  .category-list {
+    display: none;
+  }
+
+  .category-list.mobile-open {
+    display: flex;
+  }
 }

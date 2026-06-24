@@ -25,8 +25,15 @@
 }
 
 /* Налаштовуємо базові елементи на повну висоту */
-html, body {
-  height: 100%;
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -38,7 +45,7 @@ body {
 
 /* Налаштовуємо головний контейнер React */
 #root {
-  height: 100%;
+  min-height: 100%;
 }
 
 /* ВИПРАВЛЕНО: Перетворюємо обгортку додатка на вертикальну Flexbox сітку */
@@ -199,7 +206,19 @@ button {
 .user-actions {
   display: flex;
   align-items: center;
-  gap: 18px; /* Відстань між кошиком і профілем */
+  gap: 18px;
+}
+
+.wishlist-btn {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+  transition: color 0.2s, transform 0.2s;
+}
+
+.wishlist-btn:hover {
+  color: var(--accent-color);
+  transform: scale(1.1);
 }
 
 .cart-wrapper {
@@ -367,7 +386,18 @@ button {
   transform: translateX(0);
 }
 
-.menu-close-btn, .account-menu-close-btn {
+.cart-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cart-menu-header h1 {
+  margin: 0;
+}
+
+.menu-close-btn, .account-menu-close-btn, .cart-menu-close-btn {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -377,7 +407,7 @@ button {
 
 .cart-menu h1, .account-menu h1, .menu h1 {
   font-size: 1.5rem;
-  margin-bottom: 25px;
+  margin-bottom: 0;
   border-bottom: 2px solid var(--border-color);
   padding-bottom: 10px;
 }
@@ -707,18 +737,34 @@ footer {
    ========================================= */
 @media (max-width: 768px) {
   .burger-btn {
-    display: block; 
+    display: block;
   }
 
   .nav-links {
-    display: none; 
+    display: none;
   }
 
   .search-container {
-    display: none; 
+    display: none;
   }
 
   .cart-menu, .account-menu {
-    width: 100%; 
+    width: 100%;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  .logo-image {
+    height: 32px;
+  }
+
+  .navbar {
+    padding: 8px 4%;
+  }
+
+  .user-actions {
+    gap: 12px;
   }
 }

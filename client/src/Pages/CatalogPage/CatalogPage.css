@@ -2,14 +2,14 @@
 .catalog-container {
   display: flex;
   gap: 30px;
-  max-width: 1300px;
+  max-width: 1600px;
   margin: 40px auto;
-  padding: 0 20px;
+  padding: 0 40px;
 }
 
 /* Сайдбар (Ліва панель) */
 .catalog-sidebar {
-  width: 280px;
+  width: 240px;
   flex-shrink: 0;
 }
 
@@ -159,8 +159,8 @@
 /* Сітка товарів */
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 }
 
 /* Стан, коли нічого не знайдено */
@@ -207,20 +207,65 @@
 
 /* АДАПТИВНІСТЬ ТА МОБІЛЬНА ВЕРСІЯ */
 @media (max-width: 992px) {
-  .catalog-container { 
-    flex-direction: column; 
+  .catalog-container {
+    flex-direction: column;
     gap: 20px;
+    margin: 20px auto;
   }
-  
-  .catalog-sidebar { 
-    width: 100%; 
+
+  .catalog-sidebar {
+    width: 100%;
   }
 
   .catalog-search-wrapper {
-    max-width: 100%; 
+    max-width: 100%;
   }
 
   .banner-overlay h1 {
     font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog-container {
+    padding: 0 12px;
+    gap: 15px;
+    margin: 15px auto;
+  }
+
+  .catalog-banner {
+    height: 200px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  .banner-overlay {
+    padding-left: 20px;
+  }
+
+  .banner-overlay h1 {
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+  }
+
+  .catalog-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+
+  .catalog-grid .product-item {
+    width: calc(50% - 5px);
+    max-width: none;
+  }
+
+  .catalog-search-wrapper {
+    margin: 12px 0;
+  }
+
+  .load-more-btn {
+    padding: 12px 28px;
+    font-size: 0.9rem;
   }
 }

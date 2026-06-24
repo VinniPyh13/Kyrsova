@@ -201,8 +201,9 @@ const ProductPage = ({ fetchCart, isProductFavorite, handleToggleFavorite }) => 
       });
       if (!res.ok) throw new Error("Не вдалося додати товар до кошика");
 
+      const updatedCart = await res.json();
       addAlert("Товар успішно додано до кошика!", "success");
-      if (fetchCart) fetchCart();
+      if (fetchCart) fetchCart(updatedCart);
     } catch (err) {
       addAlert(err.message, "error");
     }

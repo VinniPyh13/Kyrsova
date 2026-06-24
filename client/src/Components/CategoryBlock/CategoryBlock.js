@@ -12,6 +12,7 @@ const CategoryBlock = ({
   const [categories, setCategories] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState({});
   const [loading, setLoading] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Завантаження категорій з бекенду
   useEffect(() => {
@@ -113,9 +114,14 @@ const CategoryBlock = ({
 
   return (
     <div className="category-block-wrapper">
-      <h3 className="category-block-title">Категорії</h3>
-      
-      <ul className="category-list">
+      <div className="category-block-header">
+        <h3 className="category-block-title">Категорії</h3>
+        <button className="category-toggle-mobile" onClick={() => setMobileOpen(o => !o)}>
+          {mobileOpen ? 'Сховати ▲' : 'Показати ▼'}
+        </button>
+      </div>
+
+      <ul className={`category-list${mobileOpen ? ' mobile-open' : ''}`}>
         {filteredCategories.map((category) => {
           const isExpanded = expandedCategories[category._id];
           const isCategorySelected = selectedCategoryId === category._id;
