@@ -44,7 +44,8 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
   const updateURLParams = (newFilters) => {
     const params = new URLSearchParams(searchParams);
 
-    if (newFilters.sort && newFilters.sort !== 'newest') params.set('sort', newFilters.sort);
+    const defaultSort = isNewPage ? 'newest' : 'popular';
+    if (newFilters.sort && newFilters.sort !== defaultSort) params.set('sort', newFilters.sort);
     else params.delete('sort');
 
     if (newFilters.minPrice) params.set('minPrice', newFilters.minPrice);
@@ -116,6 +117,10 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
     if (pageInfo.type === "sale") base = base.filter(p => p.isSale);
     if (pageInfo.type === "men") base = base.filter(p => p.gender === "Чоловічий" || p.gender === "Унісекс");
     if (pageInfo.type === "women") base = base.filter(p => p.gender === "Жіночий" || p.gender === "Унісекс");
+    if (pageInfo.type === "new") {
+      const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+      base = base.filter(p => new Date(p.createdAt) >= startOfMonth);
+    }
 
     if (selectedCategoryId) {
       base = base.filter(p => {
@@ -172,6 +177,10 @@ const CatalogPage = ({ products: allProducts, isProductFavorite, handleToggleFav
     if (pageInfo.type === "sale") result = result.filter(p => p.isSale);
     if (pageInfo.type === "men") result = result.filter(p => p.gender === "Чоловічий" || p.gender === "Унісекс");
     if (pageInfo.type === "women") result = result.filter(p => p.gender === "Жіночий" || p.gender === "Унісекс");
+    if (pageInfo.type === "new") {
+      const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+      result = result.filter(p => new Date(p.createdAt) >= startOfMonth);
+    }
 
     if (selectedCategoryId) {
         result = result.filter(p => {

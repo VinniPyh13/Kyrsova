@@ -36,39 +36,44 @@ const CategoryBlock = ({
     fetchCategories();
   }, [selectedCategoryId]);
 
-  // Розрахунок валідних підкатегорій на основі наявного одягу та гендеру
+  // Розрахунок валідних категорій та підкатегорій на основі наявного одягу та гендеру
   const filteredCategories = useMemo(() => {
     if (categories.length === 0 || products.length === 0) return categories;
 
-    const genderMapping = {
-      "men": "Чоловічий",
-      "women": "Жіночий"
-    };
+    const genderMapping = { "men": "Чоловічий", "women": "Жіночий" };
     const targetGender = genderMapping[currentGender];
 
-    return categories.map(category => {
-      if (!category.subcategories || category.subcategories.length === 0) return category;
+    const matchesGender = (p) => {
+      if (!targetGender) return true;
+      return p.gender === targetGender || p.gender === "Унісекс";
+    };
 
-      const validSubcategories = category.subcategories.filter(sub => {
-        return products.some(product => {
-          const subIds = product.subcategories ? product.subcategories.map(s => s._id || s) : [];
-          const belongsToSubcategory = subIds.includes(sub._id);
-
-          if (!belongsToSubcategory) return false;
-
-          if (targetGender) {
-            return product.gender === targetGender || product.gender === "Унісекс";
-          }
-
-          return true;
+    return categories
+      .map(category => {
+        // Перевіряємо чи є хоча б один товар цієї категорії що відповідає гендеру
+        const hasMatchingProducts = products.some(p => {
+          const catIds = Array.isArray(p.categoryId)
+            ? p.categoryId.map(c => c._id || c)
+            : [p.categoryId?._id || p.categoryId];
+          return catIds.includes(category._id) && matchesGender(p);
         });
-      });
 
-      return {
-        ...category,
-        subcategories: validSubcategories
-      };
-    });
+        if (!hasMatchingProducts) return null;
+
+        if (!category.subcategories || category.subcategories.length === 0) {
+          return category;
+        }
+
+        const validSubcategories = category.subcategories.filter(sub =>
+          products.some(p => {
+            const subIds = p.subcategories ? p.subcategories.map(s => s._id || s) : [];
+            return subIds.includes(sub._id) && matchesGender(p);
+          })
+        );
+
+        return { ...category, subcategories: validSubcategories };
+      })
+      .filter(Boolean);
   }, [categories, products, currentGender]);
 
   const toggleCategory = (categoryId) => {

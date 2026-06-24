@@ -29,7 +29,10 @@ class ProductController {
                 ? Product.find().sort({ salesCount: -1 })
                 : Product.find({}).sort({ createdAt: -1 });
 
-            query = query.populate({ path: 'reviews', select: 'rating' });
+            query = query
+                .populate({ path: 'categoryId', select: 'name' })
+                .populate({ path: 'subcategories', select: 'name' })
+                .populate({ path: 'reviews', select: 'rating' });
 
             if (fields) {
                 const fieldList = fields.split(' ');

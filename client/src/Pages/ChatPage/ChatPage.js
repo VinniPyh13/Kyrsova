@@ -129,6 +129,8 @@ const ChatPage = () => {
 
       if (data.reply) {
         setMessages(prev => [...prev, { role: 'model', parts: [{ text: data.reply }] }]);
+      } else if (response.status === 429) {
+        setMessages(prev => [...prev, { role: 'model', parts: [{ text: "Денний ліміт ШІ-запитів вичерпано. Спробуйте завтра або зверніться до адміністратора." }] }]);
       } else if (response.status === 503) {
         setMessages(prev => [...prev, { role: 'model', parts: [{ text: "ШІ-асистент зараз перевантажений. Спробуйте надіслати повідомлення ще раз через кілька секунд." }] }]);
       } else {
