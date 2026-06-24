@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import useAuthUser from '../../hooks/useAuthUser';
+import { showToast } from '../../utils/toast';
 
 const AdminRoute = ({ children }) => {
   const user = useAuthUser();
@@ -10,7 +11,7 @@ const AdminRoute = ({ children }) => {
   }
 
   if (!user.roles?.includes('ADMIN')) {
-    alert('У вас немає прав аміністратора!');
+    sessionStorage.setItem('toast_error', 'У вас немає прав адміністратора!');
     return <Navigate to="/" />;
   }
 

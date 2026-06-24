@@ -97,7 +97,7 @@ const RegisterPopup = ({ isOpen, onClose }) => {
       }
 
       localStorage.setItem("token", data.token);
-      alert("Реєстрація успішна! Вас увійшло в систему.");
+      sessionStorage.setItem("toast", "Реєстрацію успішно завершено! Ласкаво просимо.");
       onClose();
       navigate("/");
     } catch (err) {

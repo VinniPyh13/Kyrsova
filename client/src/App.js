@@ -24,6 +24,8 @@ import SearchPopup from "./Components/SearchPopup/SearchPopup";
 import ChatPage from './Pages/ChatPage/ChatPage';
 import { AnalyticsPage } from "./Pages/AnalyticsPage/AnalyticsPage";
 import { AboutUsPage } from "./Pages/AboutUs/AboutUsPage";
+import Toast from "./Components/Toast/Toast";
+import { showToast } from "./utils/toast";
 
 import "./App.css";
 
@@ -178,7 +180,7 @@ function App() {
       addAlert("Товар успішно додано до кошика!", "success");
     } catch (err) {
       console.error("Помилка додавання до кошика:", err);
-      alert("Помилка додавання товару до кошика");
+      showToast("Помилка додавання товару до кошика", 'error');
     }
   };
 
@@ -282,6 +284,7 @@ const handleToggleFavorite = async (productId) => {
   return (
     <>
       <ScrollToTop />
+      <Toast />
       {/* ВИПРАВЛЕНО: app-wrapper тепер обгортає весь сайт і є прямим нащадком body/#root */}
       <div className="app-wrapper">
         

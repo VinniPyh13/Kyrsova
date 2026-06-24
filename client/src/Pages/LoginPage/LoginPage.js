@@ -22,8 +22,7 @@ const LoginPage = () => {
       if (!res.ok) throw new Error(data.message || "Логін не вдався");
 
       localStorage.setItem("token", data.token);
-      alert("Вхід успішний!");
-      // Використовуємо window.location для повного оновлення стану додатка (Header тощо)
+      sessionStorage.setItem("toast", "Вхід успішний! Раді вас бачити.");
       window.location.href = '/';
     } catch (err) {
       setError(err.message);

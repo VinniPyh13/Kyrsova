@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuthUser from '../../hooks/useAuthUser'; 
+import useAuthUser from '../../hooks/useAuthUser';
+import { showToast } from '../../utils/toast';
 import './NewOrderPage.css';
 
 function NewOrderPage() {
@@ -212,7 +213,7 @@ const fetchWarehouses = async (cityRef) => {
 
     } catch (error) {
       console.error('Помилка після успішної оплати:', error);
-      alert('Гроші знято, але виникла помилка на сервері. Будь ласка, зв\'яжіться з підтримкою.');
+      showToast('Гроші знято, але виникла помилка на сервері. Зверніться до підтримки.', 'error');
     }
   }
 }).render('#paypal-button-container');
@@ -276,7 +277,7 @@ const fetchWarehouses = async (cityRef) => {
     }, 3000);
 
   } catch (err) {
-    alert('Сталася помилка при оформленні');
+    showToast('Сталася помилка при оформленні замовлення', 'error');
   } finally {
     setPlacingOrder(false);
   }

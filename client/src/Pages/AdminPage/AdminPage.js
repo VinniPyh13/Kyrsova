@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ConfirmDialog from "../../Components/ConfirmDialog/ConfirmDialog";
 import "./AdminPage.css";
 
 function AdminPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [confirmId, setConfirmId] = useState(null);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -54,15 +56,18 @@ function AdminPage() {
     navigate(`/admin/add_product`);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Ви впевнені, що хочете видалити цей товар?")) return;
+  const handleDelete = (id) => {
+    setConfirmId(id);
+  };
 
+  const confirmDelete = async () => {
+    const id = confirmId;
+    setConfirmId(null);
     try {
       const res = await fetch(`/api/products/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
-
       if (!res.ok) throw new Error("Помилка при видаленні товару");
       setProducts(products.filter((product) => product._id !== id));
     } catch (err) {
@@ -72,6 +77,13 @@ function AdminPage() {
 
   return (
     <div className="admin-page-wrapper">
+      {confirmId && (
+        <ConfirmDialog
+          message="Ви впевнені, що хочете видалити цей товар?"
+          onConfirm={confirmDelete}
+          onCancel={() => setConfirmId(null)}
+        />
+      )}
       <div className="admin-container">
         <div className="admin-navigation">
           <button onClick={navigateToOrders} className="admin-nav-btn">

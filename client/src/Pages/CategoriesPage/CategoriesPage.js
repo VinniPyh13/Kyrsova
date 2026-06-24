@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Додано імпорт
+import { useNavigate } from "react-router-dom";
+import { showToast } from "../../utils/toast";
+import ConfirmDialog from "../../Components/ConfirmDialog/ConfirmDialog";
 import "./CategoriesPage.css";
 
 function CategoriesPage() {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [confirmAction, setConfirmAction] = useState(null);
   
   // Стан модального вікна
   const [modalType, setModalType] = useState(null); // 'category' або 'subcategory'
@@ -63,34 +66,43 @@ function CategoriesPage() {
     setFormData({ name: "", description: "", categoryId: "" });
   };
 
-  const handleDeleteCategory = async (id) => {
-    if (!window.confirm("Увага! Видалення категорії може вплинути на товари. Продовжити?")) return;
-    try {
-      const res = await fetch(`/api/categories/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error();
-      setCategories(categories.filter((cat) => cat._id !== id));
-      // Також локально видаляємо прив'язані підкатегорії для актуальності UI
-      setSubcategories(subcategories.filter((sub) => sub.categoryId !== id));
-    } catch (err) {
-      alert("Помилка при видаленні категорії. Можливо, до неї ще прив'язані товари.");
-    }
+  const handleDeleteCategory = (id) => {
+    setConfirmAction({
+      message: "Увага! Видалення категорії може вплинути на товари. Продовжити?",
+      onConfirm: async () => {
+        setConfirmAction(null);
+        try {
+          const res = await fetch(`/api/categories/${id}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!res.ok) throw new Error();
+          setCategories(prev => prev.filter((cat) => cat._id !== id));
+          setSubcategories(prev => prev.filter((sub) => sub.categoryId !== id));
+        } catch (err) {
+          showToast("Помилка при видаленні категорії. Можливо, до неї ще прив'язані товари.", 'error');
+        }
+      }
+    });
   };
 
-  const handleDeleteSubcategory = async (id) => {
-    if (!window.confirm("Видалити цю підкатегорію?")) return;
-    try {
-      const res = await fetch(`/api/subcategories/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error();
-      setSubcategories(subcategories.filter((sub) => sub._id !== id));
-    } catch (err) {
-      alert("Помилка при видаленні підкатегорії.");
-    }
+  const handleDeleteSubcategory = (id) => {
+    setConfirmAction({
+      message: "Видалити цю підкатегорію?",
+      onConfirm: async () => {
+        setConfirmAction(null);
+        try {
+          const res = await fetch(`/api/subcategories/${id}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!res.ok) throw new Error();
+          setSubcategories(prev => prev.filter((sub) => sub._id !== id));
+        } catch (err) {
+          showToast("Помилка при видаленні підкатегорії.", 'error');
+        }
+      }
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -110,7 +122,7 @@ function CategoriesPage() {
       bodyToSend.description = formData.description;
     } else {
       if (!formData.categoryId) {
-        alert("Будь ласка, виберіть категорію");
+        showToast("Будь ласка, виберіть категорію", 'warning');
         return;
       }
       bodyToSend.categoryId = formData.categoryId;
@@ -146,7 +158,7 @@ function CategoriesPage() {
 
       closeModal();
     } catch (err) {
-      alert(err.message || "Помилка оновлення");
+      showToast(err.message || "Помилка оновлення", 'error');
     }
   };
 
@@ -154,6 +166,13 @@ function CategoriesPage() {
 
   return (
     <div className="categories-page-wrapper">
+      {confirmAction && (
+        <ConfirmDialog
+          message={confirmAction.message}
+          onConfirm={confirmAction.onConfirm}
+          onCancel={() => setConfirmAction(null)}
+        />
+      )}
       <div className="categories-container">
         
         <div className="categories-header">

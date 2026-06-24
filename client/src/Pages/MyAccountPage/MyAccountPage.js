@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ProductCard from '../../Components/ProductCard';
+import { showToast } from '../../utils/toast';
 import './MyAccountPage.css';
 
 const MyAccountPage = ({ handleAddToCart }) => {
@@ -117,7 +118,7 @@ const MyAccountPage = ({ handleAddToCart }) => {
 
       setUser(data);
       setIsEditing(false);
-      alert("Дані успішно оновлено!");
+      showToast("Дані успішно оновлено!");
     } catch (err) {
       setError(err.message);
     }
@@ -141,7 +142,7 @@ const MyAccountPage = ({ handleAddToCart }) => {
       // Миттєво прибираємо товар з екрану
       setFavorites(prev => prev.filter(item => item._id !== productId));
     } catch (e) {
-      alert(e.message);
+      showToast(e.message, 'error');
     }
   };
 

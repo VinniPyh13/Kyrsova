@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { showToast } from "../../utils/toast";
 import "./EditProductPage.css";
 
 const EditProductPage = () => {
@@ -108,9 +109,9 @@ const EditProductPage = () => {
         ...prev,
         reviews: prev.reviews.filter((r) => r._id !== reviewId),
       }));
-      alert("Коментар успішно видалено");
+      showToast("Коментар успішно видалено");
     } catch (err) {
-      alert(err.message);
+      showToast(err.message, 'error');
     }
   };
 
@@ -119,7 +120,7 @@ const EditProductPage = () => {
     if (!files || files.length === 0) return;
 
     if (formData.images.length + files.length > 5) {
-      alert("Максимум 5 зображень");
+      showToast("Максимум 5 зображень", 'warning');
       return;
     }
 
@@ -140,7 +141,7 @@ const EditProductPage = () => {
       // data.product - це об'єкт товару, що повернув сервер після оновлення
       setFormData((prev) => ({ ...prev, images: data.product?.images || data.book?.images || prev.images }));
     } catch (err) {
-      alert(err.message);
+      showToast(err.message, 'error');
     } finally {
       setUploading(false);
     }
@@ -160,7 +161,7 @@ const EditProductPage = () => {
       if (!res.ok) throw new Error("Помилка при видаленні зображення");
       setFormData((prev) => ({ ...prev, images: newImages }));
     } catch (err) {
-      alert(err.message);
+      showToast(err.message, 'error');
     }
   };
 
@@ -215,10 +216,10 @@ const EditProductPage = () => {
         throw new Error(errorData.message || "Помилка при оновленні товару");
       }
 
-      alert("Товар оновлено успішно!");
+      sessionStorage.setItem("toast", "Товар успішно оновлено!");
       navigate("/admin");
     } catch (err) {
-      alert(err.message);
+      showToast(err.message, 'error');
     }
   };
 

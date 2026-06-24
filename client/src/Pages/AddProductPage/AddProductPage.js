@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { showToast } from "../../utils/toast";
 import "./AddProductPage.css";
 
 const AddProductPage = () => {
@@ -63,7 +64,7 @@ const AddProductPage = () => {
     const maxFiles = 5;
     const totalFiles = formData.images.length + files.length;
     if (totalFiles > maxFiles) {
-      alert(`Максимум ${maxFiles} зображень`);
+      showToast(`Максимум ${maxFiles} зображень`, 'warning');
       return;
     }
 
@@ -146,11 +147,11 @@ const AddProductPage = () => {
           throw new Error("Помилка при завантаженні зображень");
       }
 
-      alert("Товар успішно додано!");
+      sessionStorage.setItem("toast", "Товар успішно додано!");
       navigate("/admin");
     } catch (err) {
       console.error("Помилка:", err);
-      alert(err.message);
+      showToast(err.message, 'error');
     } finally {
       setUploading(false);
     }
